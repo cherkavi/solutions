@@ -99,15 +99,14 @@ $PLAYBOOK_FOLDER"/cp.yaml" \
 
 
 # remote execution 
-DESTINATION=$REMOTE_FOLDER"/run-jar-loop.sh"
-DESTINATION_ARGUMENTS=$REMOTE_FOLDER"/run-jar-loop.sh"
+REMOTE_SCRIPT_FOLDER=$REMOTE_FOLDER
+REMOTE_SCRIPT=$REMOTE_SCRIPT_FOLDER"/run-jar-loop.sh"
+REMOTE_SCRIPT_OUTPUT=$REMOTE_SCRIPT_FOLDER"/run-jar-loop.out"
+
 ansible-playbook \
 -i $PATH_TO_NODELIST  \
 -u $REMOTE_USER \
-$PLAYBOOK_FOLDER"/cp.yaml" \
---extra-vars "source=$SOURCE destination=$DESTINATION ansible_python_interpreter=/usr/bin/python"
-
-
+$PLAYBOOK_FOLDER"/execute.yaml" \
+--extra-vars "remote_script_folder=$REMOTE_SCRIPT_FOLDER remote_script=$REMOTE_SCRIPT remote_script_output=$REMOTE_SCRIPT_OUTPUT  ansible_python_interpreter=/usr/bin/python"
 ### -----------
-
 ```
