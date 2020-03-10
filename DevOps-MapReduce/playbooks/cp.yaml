@@ -1,0 +1,9 @@
+- hosts: all
+  tasks:
+    - name: "copy file {{ destination }}"
+      copy: 
+        src: "{{ source }}" 
+        dest: "{{ destination }}" 
+        mode: 0775
+
+    - debug: msg='file {{ source }} was copied to {{ ansible_host }}'
