@@ -1,0 +1,3 @@
+- name: execute remote script
+  shell: cd {{ remote_script_folder }}; nohup {{ remote_script }} </dev/null > {{ remote_script_output }} 2>&1 &
+ 
