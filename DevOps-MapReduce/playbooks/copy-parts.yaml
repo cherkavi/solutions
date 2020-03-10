@@ -1,0 +1,7 @@
+- hosts: all
+  tasks:
+    - name: "copy correspond file to remote host {{ ansible_host }}"
+      copy: 
+        src: "{{ path_to_parts }}/{{ ansible_host }}" 
+        dest: "{{ cluster_destination_file }}"
+        mode: 0666
