@@ -77,7 +77,7 @@ ansible-playbook \
 $PLAYBOOK_FOLDER"/cp.yaml" \
 --extra-vars "source=$SOURCE destination=$DESTINATION ansible_python_interpreter=/usr/bin/python"
 
-
+# // TODO - template
 # copy single bash
 SOURCE=$WORKING_FOLDER"/bin/run-jar.sh"
 DESTINATION=$REMOTE_FOLDER"/run-jar.sh"
@@ -88,6 +88,7 @@ $PLAYBOOK_FOLDER"/cp.yaml" \
 --extra-vars "source=$SOURCE destination=$DESTINATION ansible_python_interpreter=/usr/bin/python"
 
 
+# // TODO - template
 # copy batch bash
 SOURCE=$WORKING_FOLDER"/bin/run-jar-loop.sh"
 DESTINATION=$REMOTE_FOLDER"/run-jar-loop.sh"
