@@ -1,0 +1,7 @@
+- hosts: all
+  tasks:
+    - name: create folder {{ remote_folder }}
+      file:
+        path: {{ remote_folder }}
+        state: directory
+        mode: 0775
