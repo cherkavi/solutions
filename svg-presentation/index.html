@@ -16,18 +16,15 @@
       /* Create two equal columns that floats next to each other */
       .column-left {
           float: left;
-          width: 85%;
+          width: 90%;
           height: 100%;
           padding: 10px;
           display: flex;
-          justify-content: center;
       }
       .column-right {
           float: left;
-          width: 15%;
+          width: 10%;
           padding: 10px;
-          display: flex;
-          justify-content: right;
       }
       
       /* Clear floats after the columns 
@@ -37,21 +34,15 @@
           clear: both;
       }
       */
+      .label_font{
+        font-size: larger; 
+        font-weight: 900;
+      }
     </style>
 
 
     <!-- https://raw.githubusercontent.com/ariutta/svg-pan-zoom/master/dist/svg-pan-zoom.min.js -->
     <script src="js/svg-pan-zoom.js"></script>
-
-    <script>      
-      // Don't use window.onLoad like this in production, because it can only listen to one function.
-      window.onload = function() {
-        svgPanZoom('#svg_image', {
-          zoomEnabled: true,
-          controlIconsEnabled: true
-        });
-      };
-    </script>
 
     <script>
       function show_hide(imageId, elementId){
@@ -63,15 +54,46 @@
         }
       }
     </script>
+
+    <script>      
+      // Don't use window.onLoad like this in production, because it can only listen to one function.
+      window.onload = function() {
+        svgPanZoom('#svg_image', {
+          zoomEnabled: true,
+          controlIconsEnabled: true
+        });
+        show_hide('svg_image', 'data-portal');
+        show_hide('svg_image', 'auto-labeling');
+        show_hide('svg_image', 'ad-labeling');
+        show_hide('svg_image', 'fas-labeling');
+        show_hide('svg_image', 'manual-labeling');
+        show_hide('svg_image', 'kpi');
+      };
+    </script>
+
   </head>
 
   <body>
     <!-- style="width: 500px; height: 500px; border:1px solid black; " -->
     <div class="column-left">
-      <object id="svg_image" type="image/svg+xml" data="tiger.svg">Your browser does not support SVG</object>
+      <object id="svg_image" type="image/svg+xml" style="width: 100%;" data="Tiger.svg">Your browser does not support SVG</object>
     </div>    
     <div class="column-right">
-      <button onclick="show_hide('svg_image', 'g58')">toggle</button>
+      <div>
+        <input type="checkbox" onclick="show_hide('svg_image', 'data-portal')" id="Mikhailo"><label class="label_font" for="Mikhailo">Mikhailo</label>
+      </div>
+      <div>
+        <input type="checkbox" onclick="show_hide('svg_image', 'auto-labeling')" id="Marc"><label class="label_font" for="Marc">Marc</label>
+      </div>
+      <div>
+        <input type="checkbox" onclick="show_hide('svg_image', 'ad-labeling');show_hide('svg_image', 'fas-labeling')" id="Sirma"><label class="label_font" for="Sirma">Sirma</label>
+      </div>
+      <div>
+        <input type="checkbox" onclick="show_hide('svg_image', 'manual-labeling')" id="Katharina"><label  class="label_font" for="Katharina">Katharina</label>
+      </div>
+      <div>
+        <input type="checkbox" onclick="show_hide('svg_image', 'kpi')"  id="KPI"><label  class="label_font" for="KPI">KPI</label>
+      </div>      
     </div>
   </body>
 
