@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <style>
+      * {
+          box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0
+      }
+      
+      /* Create two equal columns that floats next to each other */
+      .column-left {
+          float: left;
+          width: 85%;
+          height: 100%;
+          padding: 10px;
+          display: flex;
+          justify-content: center;
+      }
+      .column-right {
+          float: left;
+          width: 15%;
+          padding: 10px;
+          display: flex;
+          justify-content: right;
+      }
+      
+      /* Clear floats after the columns 
+      .row:after {
+          content: "";
+          display: table;
+          clear: both;
+      }
+      */
+    </style>
+
+
+    <!-- https://raw.githubusercontent.com/ariutta/svg-pan-zoom/master/dist/svg-pan-zoom.min.js -->
+    <script src="js/svg-pan-zoom.js"></script>
+
+    <script>      
+      // Don't use window.onLoad like this in production, because it can only listen to one function.
+      window.onload = function() {
+        svgPanZoom('#svg_image', {
+          zoomEnabled: true,
+          controlIconsEnabled: true
+        });
+      };
+    </script>
+
+    <script>
+      function show_hide(imageId, elementId){
+        var current_value = document.getElementById(imageId).contentDocument.getElementById(elementId).style.display;
+        if(current_value=="block" || current_value==""){
+          document.getElementById(imageId).contentDocument.getElementById(elementId).style.display="none";
+        }else{
+          document.getElementById(imageId).contentDocument.getElementById(elementId).style.display="block";
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <!-- style="width: 500px; height: 500px; border:1px solid black; " -->
+    <div class="column-left">
+      <object id="svg_image" type="image/svg+xml" data="tiger.svg">Your browser does not support SVG</object>
+    </div>    
+    <div class="column-right">
+      <button onclick="show_hide('svg_image', 'g58')">toggle</button>
+    </div>
+  </body>
+
+</html>
