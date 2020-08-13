@@ -1,5 +1,5 @@
 ```sh
-evtest
+sudo evtest
 # event21
 # Input device ID: bus 0x3 vendor 0x1532 product 0x22b version 0x111
 ```
@@ -25,6 +25,8 @@ evdev:input:b0003v1532p022Be0111*
  KEYBOARD_KEY_7002c=leftshift
  KEYBOARD_KEY_700e2=leftalt
  KEYBOARD_KEY_700e1=leftctrl
+ KEYBOARD_KEY_7001b=v
+ KEYBOARD_KEY_7001d=z
 ```
 
 
