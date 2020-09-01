@@ -10,6 +10,7 @@ sudo rm /etc/udev/hwdb.d/90-razer-keypad.hwdb
 sudo vim /etc/udev/hwdb.d/90-razer-keypad.hwdb
 ```
 [mapping names](https://hal.freedesktop.org/quirk/quirk-keymap-list.txt)
+> made for sketchtogether & ksnip 
 ```text
 evdev:input:b0003v1532p022Be0111*
  KEYBOARD_KEY_70039=1
@@ -27,6 +28,12 @@ evdev:input:b0003v1532p022Be0111*
  KEYBOARD_KEY_700e1=leftctrl
  KEYBOARD_KEY_7001b=v
  KEYBOARD_KEY_7001d=z
+ KEYBOARD_KEY_7001e=p
+ KEYBOARD_KEY_7001f=a
+ KEYBOARD_KEY_70020=l
+ KEYBOARD_KEY_70021=r
+ KEYBOARD_KEY_70022=e
+ KEYBOARD_KEY_70015=n
 ```
 
 
