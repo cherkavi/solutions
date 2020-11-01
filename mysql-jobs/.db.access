@@ -1,0 +1,5 @@
+DB_USER=admin
+DB_PASSWORD=mdJBDHkd
+DB_HOST=mysql-dev-eu-do-user.a.db.ondigitalocean.com
+DB_PORT=25060
+DB_SCHEMA=masterdb
