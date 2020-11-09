@@ -1,0 +1,32 @@
+version: '3.4'
+
+volumes:
+  mysql_volume:
+    name: ${DOCKER_MYSQL_DB_VOLUME}
+    external: false
+
+services:
+
+  mysql:
+    container_name: ${DOCKER_MYSQL_DB}
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_PORT=${MYSQL_PORT}
+    ports:
+    - ${MYSQL_PORT_EXT}:${MYSQL_PORT}
+    volumes:
+    - mysql_volume:/var/lib/mysql
+    - ./scripts:/scripts
+
+  mysql_admin:
+    container_name: ${DOCKER_MYSQL_UI}
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
