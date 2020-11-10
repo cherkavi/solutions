@@ -1,0 +1,3 @@
+export TF_VAR_MYSQL_HOST="127.0.0.1"
+export TF_VAR_USER_DB_REACT_BRIDGE_NAME="db_react"
+export TF_VAR_USER_DB_REACT_BRIDGE_PASS="db_react"
