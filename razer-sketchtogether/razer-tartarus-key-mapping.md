@@ -36,7 +36,7 @@ evdev:input:b0003v1532p022Be0111*
  KEYBOARD_KEY_70015=n
 ```
 
-nostromo sketchtogether mapping
+nostromo sketchtogether mapping  
 Input device ID: bus 0x3 vendor 0x1532 product 0x111 version 0x111
 ```
 evdev:input:b0003v1532p0111e0111*
