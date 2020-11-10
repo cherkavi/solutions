@@ -37,8 +37,9 @@ evdev:input:b0003v1532p022Be0111*
 ```
 
 nostromo sketchtogether mapping
+Input device ID: bus 0x3 vendor 0x1532 product 0x111 version 0x111
 ```
-evdev:input:b0003v1532p111Be0111*
+evdev:input:b0003v1532p0111e0111*
  KEYBOARD_KEY_70039=1
  KEYBOARD_KEY_70004=2
  KEYBOARD_KEY_70016=3
@@ -56,6 +57,7 @@ evdev:input:b0003v1532p111Be0111*
  KEYBOARD_KEY_700e1=leftctrl
  KEYBOARD_KEY_7001b=v
  KEYBOARD_KEY_7001d=z
+ KEYBOARD_KEY_7002b=delete
 ```
 
 
