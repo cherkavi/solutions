@@ -1,7 +1,10 @@
 ```sh
 sudo evtest
-# event21
+# select your Keypad device
+# 
 # Input device ID: bus 0x3 vendor 0x1532 product 0x22b version 0x111
+# convert it to:   b0003   v1532         p022B          e0111
+# convert it to: evdev:input:b0003v1532p022Be0111*
 ```
 
 ```sh
@@ -31,9 +34,9 @@ evdev:input:b0003v1532p022Be0111*
  KEYBOARD_KEY_7001e=p
  KEYBOARD_KEY_7001f=a
  KEYBOARD_KEY_70020=l
- KEYBOARD_KEY_70021=r
- KEYBOARD_KEY_70022=e
- KEYBOARD_KEY_70015=n
+ KEYBOARD_KEY_70021=ree
+ KEYBOARD_KEY_70022=t
+ KEYBOARD_KEY_70015=c
 ```
 
 nostromo sketchtogether mapping  
