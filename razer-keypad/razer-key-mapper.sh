@@ -20,13 +20,17 @@ TARGET_MD5_SUM=`md5sum $1 | cut --delimiter=' ' --fields=1`
 if [ $EXISTING_MD5_SUM != $TARGET_MD5_SUM ]; then
     # "need to replace"
     sudo cp $1 $DESTINATION_PATH
-    sudo udevadm hwdb --update
-    sudo udevadm trigger --sysname-match="evdev:input:b0003v1532*"
+    # sudo udevadm hwdb --update
+    sudo systemd-hwdb update
+    # sudo udevadm trigger
+    sudo udevadm trigger --sysname-match="event*"
+
     # assign wacom tablet to single monitor 
-    # xinput | grep -i wacom | awk -F 'id=' '{print $2}' | awk '{print $1}' | while read each_line 
-    # do
-    #     xinput map-to-output $each_line DP-2.2
-    # done
+    sleep 0.25
+    xinput | grep -i wacom | awk -F 'id=' '{print $2}' | awk '{print $1}' | while read each_line 
+    do
+        xinput map-to-output $each_line 'DP-2.2'
+    done
 else
     echo "already applied"
 fi
