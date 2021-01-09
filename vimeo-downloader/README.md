@@ -27,9 +27,7 @@ ls init-audio.mp4
 ```
 ## download parts
 ```sh
-# download it
-# eval
-./print-url-video.sh
+./download-video.sh
 ./print-url-audio.sh
 ```
 
@@ -44,12 +42,14 @@ rifle video-full.mp4
 ./merge-audio-files.sh
 rm *audio.mp4
 rifle video-full.mp4
-
 ```
 
 ## fusion 
 ```
-ffmpeg -i video.mp4 -i audio.mp4 output.mp4
+ffmpeg -i video-full.mp4 -i audio-full.mp4 output.mp4
+rm video-full.mp4
+rm audio-full.mp4
+rifle output.mp4
 ```
 
 
@@ -57,4 +57,5 @@ ffmpeg -i video.mp4 -i audio.mp4 output.mp4
 ```sh
 rm init.json
 rm *video.mp4
+rm *audio.mp4
 ```
