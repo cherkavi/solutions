@@ -12,10 +12,19 @@ curl $init_url --output init.json
 
 ## make remote url
 ```sh
-prefix=`echo $init_url | awk -F '/' '{print $1"//"$2"/"$3"/"$4"/"}'` 
+export prefix=`echo $init_url | awk -F '/' '{print $1"//"$2"/"$3"/"$4"/"}'` 
 echo $prefix
 ```
 
+## make init frames
+```sh
+./make-init-video.sh
+ls init-video.mp4
+./make-init-audio.sh
+ls init-audio.mp4
+```
+
+```
 ## download parts
 ```sh
 # download it
@@ -27,12 +36,25 @@ echo $prefix
 ## merging
 ```sh
 # make video.mp4
+./merge-video-files.sh
+rm *video.mp4
+rifle video-full.mp4
 
 # make audio.mp4
+./merge-audio-files.sh
+rm *audio.mp4
+rifle video-full.mp4
 
 ```
 
 ## fusion 
 ```
 ffmpeg -i video.mp4 -i audio.mp4 output.mp4
+```
+
+
+## cleanup
+```sh
+rm init.json
+rm *video.mp4
 ```

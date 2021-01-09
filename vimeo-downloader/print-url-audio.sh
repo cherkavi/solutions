@@ -8,4 +8,5 @@ url_suffix="$clip_id/sep/video/$base_url"
 cat init.json | jq ". | .audio[0].segments[].url" | awk -F "\"" '{print $2}' | while read each_file
 do
     echo "curl "$prefix"/"$url_suffix$each_file"  --output "$each_file".audio.mp4"
+    eval "curl "$prefix"/"$url_suffix$each_file"  --output "$each_file".audio.mp4"
 done
