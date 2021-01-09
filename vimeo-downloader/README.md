@@ -1,6 +1,8 @@
 ## copy init url 
 ```sh
-init_url='https://85vod-adaptive.akamaized.net/exp=1610185~acl=%2F173715%2F%2A~hmac=d56f3fbdeb36d036c3d309fce220d02e71cd2d05ca3ee3d7f0/173715084/sep/video/561762299,561762298/master.json?base64_init=1'
+# expected: https://85vod-adaptive.akamaized.net/exp=1610185~acl=%2F173715%2F%2A~hmac=d56f3fbdeb36d036c3d309fce220d02e71cd2d05ca3ee3d7f0/173715084/sep/video/561762299,561762298/master.json?base64_init=1
+init_url=`cat init_url.txt`
+echo $init_url
 ```
 
 ## download init.json
