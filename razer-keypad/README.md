@@ -4,3 +4,6 @@ in next applications:
 * sketchtogether
 * ksnip
 * VisualParadigm
+
+
+starting point: [[ razer-tartarus-key-mapping.md ]]
