@@ -8,10 +8,10 @@ TOOLS_POSITION_STEP_X = 55
 TOOLS_POSITION_STEP_Y = 55
 
 TOOLS_PEN_POSITION_START_X = 1110
-TOOLS_PEN_POSITION_START_Y = 200 - TOOLS_POSITION_STEP_Y
+TOOLS_PEN_POSITION_START_Y = 200 - 2 * TOOLS_POSITION_STEP_Y
 
 TOOLS_LINE_POSITION_START_X = 1110
-TOOLS_LINE_POSITION_START_Y = 310 - TOOLS_POSITION_STEP_Y
+TOOLS_LINE_POSITION_START_Y = 310 - 2 * TOOLS_POSITION_STEP_Y
 
 
 def tools_line_pos_x(deep: int):
@@ -108,8 +108,17 @@ def pen_set_size(size: int):
         pyautogui.moveTo(x=tools_pen_pos_x(3), y=tools_pen_pos_y(size))
         pyautogui.leftClick()
 
+def test_pen():
+    with PenCurrentPosition():
+        pyautogui.leftClick()
 
-if __name__ == '__main__':
+def test_line():
+    with LineCurrentPosition():
+        pyautogui.leftClick()
+
+
+
+def main_logic():
     ### pen colors dark
     keyboard.add_hotkey('alt+z', lambda: pen_set_color(Color.light), suppress=True, trigger_on_release=True)
     keyboard.add_hotkey('alt+v', lambda: pen_set_color(Color.dark), suppress=True, trigger_on_release=True)
@@ -160,3 +169,13 @@ if __name__ == '__main__':
     keyboard.clear_hotkey('alt+l')
     keyboard.clear_hotkey('alt+t')
     keyboard.clear_hotkey('alt+r')
+
+    
+
+if __name__ == '__main__':
+    ### test logic should be executed in full-screen browser mode
+    # test_pen()
+    # test_line()
+
+    ### default program behavior
+    main_logic()
