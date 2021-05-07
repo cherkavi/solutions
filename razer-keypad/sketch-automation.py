@@ -141,7 +141,10 @@ def main_logic():
     keyboard.add_hotkey('alt+l', lambda: line_set_color(Color.olive), suppress=True, trigger_on_release=True)
     keyboard.add_hotkey('alt+r', lambda: line_set_color(Color.green), suppress=True, trigger_on_release=True)
     keyboard.add_hotkey('alt+t', lambda: line_set_color(Color.blue), suppress=True, trigger_on_release=True)
-
+    
+    print("......................")
+    print(" automation activated ")
+    print("......................")
 
     ### waiting for ctrl-c, control c
     try:
