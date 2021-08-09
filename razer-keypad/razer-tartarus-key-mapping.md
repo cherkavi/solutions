@@ -9,8 +9,8 @@ sudo evtest
 
 ```sh
 # create mapping file for HWDB
-sudo rm /etc/udev/hwdb.d/90-razer-keypad.hwdb
-sudo vim /etc/udev/hwdb.d/90-razer-keypad.hwdb
+sudo touch /etc/udev/hwdb.d/90-keypad-custom.hwdb
+sudo chmod 777 /etc/udev/hwdb.d/90-keypad-custom.hwdb
 ```
 [mapping names](https://hal.freedesktop.org/quirk/quirk-keymap-list.txt)
 > made for sketchtogether & ksnip 
