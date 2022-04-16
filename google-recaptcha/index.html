@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<script src="https://www.google.com/recaptcha/api.js?render=6Ldo3dsZAAAAAIV6i6LRmPCF5cQvOrwGVJSzZzyx"></script>
+
+<script>
+      function onClick(e) {
+        //e.preventDefault();
+	      console.log("start captcha");
+        grecaptcha.ready(function() {
+          grecaptcha.execute('6Ldo3dsZAAAAAIV6i6LRmPCF5cQvOrwGVJSzZzyx', {action: 'submit'}).then(function(token) {
+              console.log(token);
+		  document.getElementById("t_output").value=token;
+		  document.getElementById("t_output").select();
+                  /* Copy the text inside the text field */
+                  document.execCommand("copy");		  
+          });
+        });
+      }
+  </script>
+
+	</head>
+	<body>
+		<button title="captcha" onclick="onClick()" >captcha </button>
+		<textarea id="t_output" rows=15 cols=40> </textarea>
+	</body>
+</html>
+

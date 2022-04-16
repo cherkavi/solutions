@@ -1,0 +1,24 @@
+<html>
+	<head>
+		<script src="https://www.google.com/recaptcha/api.js?render=6LcJIwYaAAAAAIpJLnWRF44kG22udQVufYIKgUvL"></script>
+
+<script>
+      function onClick(e) {
+        //e.preventDefault();
+	      console.log("start captcha");
+        grecaptcha.ready(function() {
+          grecaptcha.execute('6LcJIwYaAAAAAIpJLnWRF44kG22udQVufYIKgUvL', {action: 'submit'}).then(function(token) {
+              console.log(token);
+		  document.getElementById("t_output").value=token;
+          });
+        });
+      }
+  </script>
+
+	</head>
+	<body>
+		<button title="captcha" onclick="onClick()" >captcha </button>
+		<textarea id="t_output"> </textarea>
+	</body>
+</html>
+
