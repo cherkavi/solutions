@@ -1,3 +1,4 @@
+#!/bin/bash
 ################################################
 ### key mapper for razer device              ###
 ### * first argument - path to file with map ###
@@ -14,10 +15,14 @@ fi
 DESTINATION_NAME="90-keypad-custom.hwdb"
 DESTINATION_PATH="/etc/udev/hwdb.d/"$DESTINATION_NAME
 
-EXISTING_MD5_SUM=`md5sum $DESTINATION_PATH | cut --delimiter=' ' --fields=1`
+if [ -f $DESTINATION_PATH ]; then
+    EXISTING_MD5_SUM=`md5sum $DESTINATION_PATH | cut --delimiter=' ' --fields=1`
+else
+    EXISTING_MD5_SUM="not file"
+fi
 TARGET_MD5_SUM=`md5sum $1 | cut --delimiter=' ' --fields=1`
 
-if [ $EXISTING_MD5_SUM != $TARGET_MD5_SUM ]; then
+if [[ $EXISTING_MD5_SUM != $TARGET_MD5_SUM ]]; then
     # "need to replace"
     sudo cp $1 $DESTINATION_PATH
     # sudo udevadm hwdb --update
