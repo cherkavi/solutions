@@ -1,0 +1,185 @@
+<html>
+    <head>
+        <title>Fetch JSON with Indicator</title>
+        <script>
+
+                var endpoints = [
+                            {  id: 1, name: "google", url: "https://google.com", functionName: "checkResponse" },
+                            {  id: 2, name: "github", url: "https://github.com/cherkavi", functionName: "checkResponse" },
+                ];
+
+                function addLeadingZero(number) {
+                    return number < 10 ? "0" + number : number;
+                }
+
+                function getTime() {
+                    var date = new Date();
+                    var hours = date.getHours();
+                    var minutes = date.getMinutes();
+                    var seconds = date.getSeconds();
+
+                    hours = addLeadingZero(hours);
+                    minutes = addLeadingZero(minutes);
+                    seconds = addLeadingZero(seconds);
+
+                    return hours + ":" + minutes + ":" + seconds;
+                }
+
+                /*
+                    id - html element id
+                */
+                function showElement(id, displayValue){
+                    document.getElementById(id).style.display = 'block';
+                }
+                /*
+                    id - html element id
+                */
+                function hideElement(id, displayValue){
+                    document.getElementById(id).style.display = 'none';
+                }
+                
+                function setBackgroundById(id, color){
+                    document.getElementById(id).style.background = color;
+                }
+
+                function setStatusCheck(id){
+                    setBackgroundById(id, "grey")
+                }
+
+                function setStatusOk(id){
+                    setBackgroundById(id, "green")
+                }
+
+                function setStatusError(id){
+                    setBackgroundById(id, "red")
+                }
+
+                function setTextById(id, text){
+                    document.getElementById(id).textContent = text;
+                }
+                
+                function clearText(id){
+                    setTextById(id, "")
+                }
+                function setText(id, text){
+                    setTextById(id, text)
+                }
+
+                function checkResponse(url, number) {
+                    console.log("check: "+url)
+                    setStatusCheck('indicator-'+number)
+                    clearText('time-'+number)
+
+                    fetch(url, { mode: 'no-cors' })
+                        .then(response => response.text())
+                            .then(responseText => {
+                                // JSON.stringify(responseText, null, 2)
+                                setStatusOk('indicator-'+number)
+                                console.log('indicator-'+number+': ok')
+                                setText('time-'+number, getTime())
+                            })
+                            .catch(error => {
+                                console.error('Error reading text from '+url+':', error);
+                                setStatusError('indicator-'+number)
+                                console.log('indicator-'+number+': error')
+                            })
+                }
+
+            function executeFunctionByName(functionName, ...args) {
+                if (typeof window[functionName] === "function") {
+                    window[functionName](...args);
+                } else {
+                    console.log("Function not found: " + functionName);
+                }
+            }
+
+            // Generate table rows dynamically
+            function generateRows(){
+                var tableBody = document.getElementById("dashboard");
+                endpoints.forEach(function(item) {
+                  // Create a new row
+                  var row = document.createElement("tr");
+                  tableBody.appendChild(row);
+                
+                  // Create table cells for id, name, and status
+                  var cellNumber = document.createElement("td");
+                  cellNumber.textContent = item.id;
+                  cellNumber.style="column-number"
+                  row.appendChild(cellNumber);
+
+                  var cellName = document.createElement("td");
+                  cellName.textContent = item.name;
+                  cellName.style="column-name"
+                  row.appendChild(cellName);
+
+                  var cellStatus = document.createElement("td");
+                  cellStatus.textContent = "";
+                  cellStatus.style="column-status"
+                  cellStatus.id="indicator-"+item.id
+                  row.appendChild(cellStatus);
+
+                
+                  var cellTime = document.createElement("td");
+                  cellTime.textContent = "";
+                  cellTime.style="column-check-time"
+                  cellTime.id="time-"+item.id
+                  row.appendChild(cellTime);
+                });
+            }
+
+
+            function walkThroughEndpoints(){
+                for (endpointIndex in endpoints){
+                    console.log(endpoints[endpointIndex])
+                    executeFunctionByName("checkResponse", endpoints[endpointIndex].url, endpoints[endpointIndex].id);
+                }
+            }            
+            setTimeout(walkThroughEndpoints, 10000);
+
+        </script>
+        <style>
+            #loading-indicator {
+                display: none;
+                text-align: center;
+                margin-top: 20px;
+            }
+            .column-number{
+                width: 30px
+            }
+            .column-name{
+                min-width: 300px
+            }
+            .column-status{
+                width: 30px;
+            }
+            .column-check-time{
+                width: 70px;
+            }
+        </style>
+    </head>
+
+    <body onload="generateRows();walkThroughEndpoints()">
+        <h1>Fetch JSON with Indicator</h1>
+        <table id="dashboard" border="1">
+            <thead>
+                <tr>
+                    <td>#</td>
+                    <td>name</td>
+                    <td>status</td>
+                    <td>check time</td>
+                </tr>
+            </thead>
+            <tbody>
+            <!--
+                <tr>
+                    <td class="column-number">1</td>
+                    <td class="column-name">google</td>
+                    <td class="column-status" id="indicator-1"></td>
+                    <td class="column-check-time" id="time-1"></td>
+                </tr>
+            -->                
+            </tbody>
+        </table>
+    </body>
+
+</html>
