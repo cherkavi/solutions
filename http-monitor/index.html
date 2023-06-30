@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Fetch JSON with Indicator</title>
+        <title>Fetch HTML/JSON and indicate them</title>
         <script>
 
                 var endpoints = [
@@ -82,6 +82,7 @@
                                 console.error('Error reading text from '+url+':', error);
                                 setStatusError('indicator-'+number)
                                 console.log('indicator-'+number+': error')
+                                setText('time-'+number, getTime())
                             })
                 }
 
@@ -159,7 +160,7 @@
     </head>
 
     <body onload="generateRows();walkThroughEndpoints()">
-        <h1>Fetch JSON with Indicator</h1>
+        <h1>Fetch HTML/Json pages </h1>
         <table id="dashboard" border="1">
             <thead>
                 <tr>
