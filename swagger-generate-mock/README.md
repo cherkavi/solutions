@@ -5,16 +5,22 @@ Simple Web application based on UI+Lambda+DynamoDB
 ![domain model](https://i.postimg.cc/d1CYTqzx/Selection-002.png)
 ![convert to OpenAPI](https://i.postimg.cc/xjNXQkjG/aws-webapp-solution-model-generation.png)
 
-## create OpenAPI specification
-* [web designer](https://stoplight.io/studio/)
-* [designer](https://www.apicur.io/)
+## create OpenAPI specification, api specification 
+* [api web designer](https://stoplight.io/studio/)
+* [openapi designer, swagger designer](https://www.apicur.io/)
+  * [online api designer](https://studio.apicur.io/apis)
+  * start designer locally 
     ```sh
     git clone https://github.com/Apicurio/apicurio-studio.git
     cd apicurio-studio/distro/docker-compose
     cat Readme.md
     ```
 
-## generate server/client mock
+## [server mock](https://github.com/stoplightio/prism/tree/master)
+### [online tool](https://stoplight.io/open-source/prism)
+### [how to customize answer](https://docs.stoplight.io/docs/prism/83dbbd75532cf-http-mocking#response-examples)
+> use http-header "Prefer"
+### start server locally
 ```bash
 docker rm openapi-mock
 docker run -it \
