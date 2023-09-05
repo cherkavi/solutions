@@ -46,9 +46,12 @@ all-files-img-upload-archive
 
 6. read last uploaded files and create anki mapping 
 ```sh
+CUSTOM_PREFIX=card-word-
+CUSTOM_POST_PREFIX=2023-08-29
 ANKI_IMPORT_FILE=$CUSTOM_PREFIX.anki-import.txt
 # check files to be imported
-COMMAND_RETRIEVE='cat $ARCHIVE_IMGBB_LIST | grep "${CUSTOM_PREFIX}2023-08-27-16" | sort -V '
+cat $ARCHIVE_IMGBB_LIST | grep "${CUSTOM_PREFIX}${CUSTOM_POST_PREFIX}" | sort -V | wc -l
+COMMAND_RETRIEVE='cat $ARCHIVE_IMGBB_LIST | grep "${CUSTOM_PREFIX}${CUSTOM_POST_PREFIX}" | sort -V '
 ```
 create Anki Note like "Odd-Even"
 ```sh
