@@ -12,6 +12,8 @@ curl -X GET localhost:9092
 ```
 
 ## Start apache
+## context
+![context diagram](https://i.ibb.co/PcGjsz8/apache-sticky.jpg)
 
 ## create conf file for apache ( copy file from container and make necessary changes in config) 
 ```sh
