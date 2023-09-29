@@ -24,11 +24,11 @@ cp /opt/bitnami/apache/conf/httpd.conf /app
 ### start apache with config file
 ```sh
 # start docker conatiner 
-docker stop apache; docker rm apache
-docker run --name apache --network="host" -v $(pwd)/apache-proxy.conf:/opt/bitnami/apache/conf/httpd.conf bitnami/apache:latest
+docker stop apache; docker rm apache; docker run --name apache --network="host" -v $(pwd)/apache-proxy.conf:/opt/bitnami/apache/conf/httpd.conf bitnami/apache:latest
 
 # check start of apache 
 curl -L -X GET localhost:8080
+# curl -L -X GET localhost:8080/service
 ```
 
 ### start apache manually
