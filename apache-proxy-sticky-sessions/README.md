@@ -28,7 +28,6 @@ docker stop apache; docker rm apache; docker run --name apache --network="host" 
 
 # check start of apache 
 curl -L -X GET localhost:8080
-# curl -L -X GET localhost:8080/service
 ```
 
 ### start apache manually
@@ -45,5 +44,17 @@ APACHE_CONF_FILE=/opt/bitnami/apache/conf/httpd.conf
 APACHE_BIN_DIR=/opt/bitnami/apache/bin
 "${APACHE_BIN_DIR}/httpd" -f "$APACHE_CONF_FILE"
 # "${APACHE_BIN_DIR}/httpd" -f "$APACHE_CONF_FILE" -D "FOREGROUND"
+```
 
+## check redirection
+```sh
+### option: redirect with root
+curl -L -X GET localhost:8080
+
+### option: redirect with service 
+ curl -L -X GET localhost:8080/service
+
+## option 3 - redirect with header
+curl -L -X GET -H "my-number:10.10.1.1" localhost:8080/service
+curl -L -X GET -H "my-number:10.10.1.2" localhost:8080/service
 ```
