@@ -25,6 +25,25 @@ and add next lines
     key <CAPS> { [ ISO_Level3_Shift ] };
 }
 ```
+alternative solution
+```sh
+sudo apt-get install xbindkeys xautomation 
+
+xbindkeys -mk
+# press your Shift+Backspace shortcut
+# m:0x11 + c:22        
+# Shift+Mod2 + BackSpace 
+
+# xbindkeys --defaults > $HOME/.xbindkeysrc  
+vim $HOME/.xbindkeysrc  
+
+# "xte 'key Delete'"
+# m:0x11 + c:22        
+# Shift+Mod2 + BackSpace  
+
+```
+
+
 
 ## mouse with [super]+[alt]+hjkl
 ```sh
