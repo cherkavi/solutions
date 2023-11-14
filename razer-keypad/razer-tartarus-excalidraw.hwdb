@@ -28,8 +28,8 @@ evdev:input:b0003v1532p022Be0111*
  KEYBOARD_KEY_70050=l
  KEYBOARD_KEY_7004f=a
 # cursor buttons 
- KEYBOARD_KEY_700e2=.leftctrl
- KEYBOARD_KEY_7002c=.leftshift
+ KEYBOARD_KEY_700e2=leftctrl
+ KEYBOARD_KEY_7002c=leftshift
 
 
 # | button numer   |      key        |     action name                 | 
