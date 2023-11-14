@@ -22,6 +22,8 @@ and add next lines
     key <AC10> {        [ semicolon, colon, KP_Enter    ]       };
     key <AD06> {        [         y, Y, BackSpace       ]       };
     key <AB06> {        [         n, N, Delete          ]       };
+    key <AD08> {        [         i, I, Page_Up        ]       };
+    key <AB08> {        [     comma, less, Page_Down   ]       };
     key <CAPS> { [ ISO_Level3_Shift ] };
 }
 ```
