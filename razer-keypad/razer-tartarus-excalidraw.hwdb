@@ -1,0 +1,55 @@
+evdev:input:b0003v1532p022Be0111*
+# keys: 01-05
+ KEYBOARD_KEY_7001e=esc
+ KEYBOARD_KEY_7001f=v
+ KEYBOARD_KEY_70020=v
+ KEYBOARD_KEY_70021=dot
+ KEYBOARD_KEY_70022=delete
+# keys: 06-10
+ KEYBOARD_KEY_7002b=dot
+ KEYBOARD_KEY_70014=dot
+ KEYBOARD_KEY_7001a=dot
+ KEYBOARD_KEY_70008=dot
+ KEYBOARD_KEY_70015=o
+# keys: 11-15
+ KEYBOARD_KEY_70039=h
+ KEYBOARD_KEY_70004=h
+ KEYBOARD_KEY_70016=k
+ KEYBOARD_KEY_70007=k
+ KEYBOARD_KEY_70009=r
+# keys: 16-19
+ KEYBOARD_KEY_700e1=z
+ KEYBOARD_KEY_7001d=dot
+ KEYBOARD_KEY_7001b=g
+ KEYBOARD_KEY_70006=s
+# cursor ( up, down, left, right)
+ KEYBOARD_KEY_70052=p
+ KEYBOARD_KEY_70051=e
+ KEYBOARD_KEY_70050=l
+ KEYBOARD_KEY_7004f=a
+# cursor buttons 
+ KEYBOARD_KEY_700e2=.leftctrl
+ KEYBOARD_KEY_7002c=.leftshift
+
+
+# | button numer   |      key        |     action name                 | 
+# |----------------|-----------------|---------------------------------| 
+# | 01             |    Escape       |                                 | 
+# | 05             |    Delete       |                                 | 
+# | 16             |    Z            |                                 | 
+# | push           |    control      |                                 | 
+# | 20             |    shift        |                                 | 
+# | cursor left    |    L or 6       |  Line                           | 
+# | cursor up      |    P or 7       |  Draw                           | 
+# | cursor right   |    A or 5       |  Arrow                          | 
+# | cursor down    |    E or 0       |  Eraser                         | 
+# | 02             |    V or 1       |  Selection                      | 
+# | 03             |    V or 1       |  Selection                      | 
+# | 13             |    K            |  Laser pointer                  | 
+# | 14             |    K            |  Laser pointer                  | 
+# | 19             |    S            |  Show stroke color picker       | 
+# | 18             |    G            |  Show background color picker   | 
+# | 15             |    R or 2       |  Rectangle                      | 
+# | 10             |    O or 4       |  Ellipse                        | 
+# | 11             |    H            |  Hand panning tool              | 
+# | 12             |    H            |  Hand panning tool              | 
