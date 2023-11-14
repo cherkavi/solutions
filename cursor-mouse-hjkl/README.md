@@ -19,7 +19,8 @@ and add next lines
     key <AC09> {        [         l, L, Right           ]       };
     key <AD07> {        [         u, U, Home            ]       };
     key <AB07> {        [         m, M, End             ]       };
-    key <AC10> {        [ semicolon, colon, KP_Enter    ]       };
+//    key <AC10> {        [ semicolon, colon, KP_Enter    ]       };
+    key <AC10> {        [ semicolon, colon, Return      ]       };
     key <AD06> {        [         y, Y, BackSpace       ]       };
     key <AB06> {        [         n, N, Delete          ]       };
     key <AD08> {        [         i, I, Page_Up        ]       };
