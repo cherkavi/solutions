@@ -6,26 +6,34 @@ Main goal of current application:
 1. to have one "Master" SDD disc with all images
 2. to have one "Copy of master" HDD disc with all images
 
-## Steps:
-### 1. Collect files from all disks in psv file
+## Steps for multi-drives
+### [collect md5sum from all files](#collect-files-from-all-disks-in-psv-file)
+### next steps for each disk 
+1. [find out all duplicates](#analyze-all-psv-files)
+2. remove all duplicates based on - duplicated-report
+3. [find out all uniq files](#compare-two-disks)
+4. copy uniq files to another drive
+
+## Collect files from all disks in psv file
 > mostly human-involved operation
 ```sh
 ### 1. create file "files-all-${DISK_NAME}.psv"
 # <md5sum> | <file name> | <file path>
 DISK_NAME="archive2"
 PATH_TO_DISK=/media/$USER/$DISK_NAME
-ls $PATH_TO_DISK
+echo $PATH_TO_DISK
 OUTPUT_FILE=files-all-${DISK_NAME}.psv
 ./md5-sum-collector.sh  "$PATH_TO_DISK"  "$OUTPUT_FILE"
 wc -l $OUTPUT_FILE
 ```
 
-### 2. Analyze all *.psv files
-* '-duplicated' - md5sum of duplications
+## Analyze all *.psv files
+* '-duplicated'         - md5sum of duplications
 * '-duplicated-folders' - folders with duplications
-* '-report' - duplication report 
+* '-duplicated-report'  - duplication report 
 ```sh
 IFS=$'\n'
+# for OUTPUT_FILE in files-all-archive2.psv; do
 for OUTPUT_FILE in `ls *.psv`; do
     cat $OUTPUT_FILE | awk -F '|' '{print $1}' > ${OUTPUT_FILE}-md5
     cat ${OUTPUT_FILE}-md5 | sort > "$OUTPUT_FILE-sorted"
@@ -66,7 +74,7 @@ for OUTPUT_FILE in `ls *.psv`; do
     cat $OUTPUT_FILE_DUPLICATED | sort > $OUTPUT_FILE_DUPLICATED-sorted
     mv $OUTPUT_FILE_DUPLICATED-sorted $OUTPUT_FILE_DUPLICATED
     
-    OUTPUT_FILE_REPORT="$OUTPUT_FILE-report"
+    OUTPUT_FILE_REPORT="$OUTPUT_FILE-duplicated-report"
     echo -n "" > $OUTPUT_FILE_REPORT
     for each_duplicated_folder in `cat $OUTPUT_FILE_DUPLICATED_FOLDERS`; do
         echo $each_duplicated_folder >> $OUTPUT_FILE_REPORT
@@ -85,33 +93,12 @@ done
 wc -l *psv*
 ```
 
-### 2. compare two disks
+## compare two disks
 * '-uniq' files contain information about uniq files on the disk
 ```sh
-FILE_1=files-all-archive-2.psv
+FILE_1=files-all-archive2.psv
 FILE_2=files-all-archive-original.psv
 
-cat $FILE_1 | awk -F '|' '{print $1}' | sort > ${FILE_1}-md5-sort
-cat $FILE_2 | awk -F '|' '{print $1}' | sort > ${FILE_2}-md5-sort
-
-# list of uniq files in FILE_1
-FILE_1_UNIQ=${FILE_1}-uniq
-echo -n > ${FILE_1_UNIQ}
-for each_md5_compare_line in `diff ${FILE_1}-md5-sort ${FILE_2}-md5-sort | grep '<'`; do
-    each_md5=`echo $each_md5_compare_line | awk '{print $2}'`
-    cat ${FILE_1} | grep "${each_md5}" | awk -F '|' '{print $3}' >> ${FILE_1_UNIQ}
-done
-cat ${FILE_1_UNIQ} | sort > "${FILE_1_UNIQ}-sorted"
-mv "${FILE_1_UNIQ}-sorted" ${FILE_1_UNIQ}
-
-
-# list of uniq files in FILE_2
-FILE_2_UNIQ=${FILE_2}-uniq
-echo -n > ${FILE_2_UNIQ}
-for each_md5_compare_line in `diff ${FILE_1}-md5-sort ${FILE_2}-md5-sort | grep '>'`; do
-    each_md5=`echo $each_md5_compare_line | awk '{print $2}'`
-    cat ${FILE_2} | grep "${each_md5}" | awk -F '|' '{print $3}' >> ${FILE_2_UNIQ}
-done
-cat ${FILE_2_UNIQ} | sort > "${FILE_2_UNIQ}-sorted"
-mv "${FILE_2_UNIQ}-sorted" ${FILE_2_UNIQ}
+./uniqueness-calculator $FILE_1 $FILE_2
 ```
+
