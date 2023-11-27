@@ -15,7 +15,8 @@ cat $FILE_2 | awk -F '|' '{print $1}' | sort > ${FILE_2}-md5-sort
 
 # list of uniq files in FILE_1
 FILE_1_UNIQ=${FILE_1}-uniq
-echo -n > ${FILE_1_UNIQ}
+echo -n "" > ${FILE_1_UNIQ}
+IFS=$'\n'
 for each_md5_compare_line in `diff ${FILE_1}-md5-sort ${FILE_2}-md5-sort | grep '<'`; do
     each_md5=`echo $each_md5_compare_line | awk '{print $2}'`
     cat ${FILE_1} | grep "${each_md5}" | awk -F '|' '{print $3}' >> ${FILE_1_UNIQ}

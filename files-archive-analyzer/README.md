@@ -97,8 +97,8 @@ wc -l *psv*
 * '-uniq' files contain information about uniq files on the disk
 ```sh
 FILE_1=files-all-archive2.psv
-FILE_2=files-all-archive-original.psv
+FILE_2=files-all-original.psv
 
-./uniqueness-calculator $FILE_1 $FILE_2
+./uniqueness-calculator.sh $FILE_1 $FILE_2
 ```
 
