@@ -1,5 +1,6 @@
 # hjkl for managing cursor and mouse
-current solution works ( tested ) for Ubuntu OS.
+current solution works ( tested ) for Ubuntu OS.  
+[possible useful link](https://wiki.archlinux.org/title/X_keyboard_extension)
 
 ## cursor with [caps lock]+hjkl
 ```sh
@@ -26,6 +27,8 @@ and add next lines
     key <AD08> {        [         i, I, Page_Up        ]       };
     key <AB08> {        [     comma, less, Page_Down   ]       };
     key <CAPS> { [ ISO_Level3_Shift ] };
+//  PrintScr/Druck button to Win/Super
+    key <PRSC> { [ Super_L ] };
 }
 ```
 alternative solution
