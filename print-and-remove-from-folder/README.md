@@ -7,10 +7,15 @@
 
 ## run current script in destination folder
 ```sh
-#lpstat -l -v
+## select one of the printer by name
+# lpstat -l -v
 PRINTER_NAME=HLL8260CDW
 
 while true; do
+    ## today's created files in the folder
+    # for each_file in `find . -type f -name "*.jpg" -daystart -ctime 0`; do
+
+    ## list of all files in the folder with jpg extension
     for each_file in `ls *.jpg`; do
         out_file=out.jpg
         convert $each_file -resize 200 -rotate -90 -contrast $out_file
