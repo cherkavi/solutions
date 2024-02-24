@@ -1,14 +1,23 @@
 # Start android on PC
 ## Android OS for PC
-* [Windows Subsystem](https://quickfever.com/how-to-install-android-apps-on-windows-11-from-apk-file/)
-* [FydeOS](https://fydeos.io/download)
+* **[FydeOS](https://fydeos.io/download)**
   > chromium fork
+* [Windows Subsystem](https://quickfever.com/how-to-install-android-apps-on-windows-11-from-apk-file/)
 
 ## VirtualBox
-* [Android-x86](https://www.osboxes.org/android-x86)
-  * [original source](https://www.android-x86.org/)
+* **[Android-x86](https://www.osboxes.org/android-x86)**
+  * [original source, iso](https://www.android-x86.org/)
+  * [github](https://android-x86.github.io/)
 * [Lineage OS](https://www.osboxes.org/android-x86/)
+  * create new Virtual Machine
+  * Type: Linux, Version: Linux 2.6/3.x/4.x (64-bit)
+  * Memory: 4Gb
+  * Use an existing virtual hard disk file ( <--- select your vdi )
 * Phoenix OS
+
+## ISO images
+* [lineage os](https://www.android-x86.org/releases/releasenote-cm-x86-14-1-r5.html)
+* [android os](https://www.android-x86.org/)
 
 ## Emulator
 * Android Studio
