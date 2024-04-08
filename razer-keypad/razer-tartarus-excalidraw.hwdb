@@ -6,10 +6,10 @@ evdev:input:b0003v1532p022Be0111*
  KEYBOARD_KEY_70021=dot
  KEYBOARD_KEY_70022=delete
 # keys: 06-10
- KEYBOARD_KEY_7002b=x
- KEYBOARD_KEY_70014=c
- KEYBOARD_KEY_7001a=v
- KEYBOARD_KEY_70008=b
+ KEYBOARD_KEY_7002b=c
+ KEYBOARD_KEY_70014=s
+ KEYBOARD_KEY_7001a=z
+ KEYBOARD_KEY_70008=r
  KEYBOARD_KEY_70015=o
 # keys: 11-15
  KEYBOARD_KEY_70039=h
@@ -46,10 +46,10 @@ evdev:input:b0003v1532p022Be0111*
 # | cursor up      |    p or 7       |  Draw                           | 
 # | cursor right   |    a or 5       |  Arrow                          | 
 # | cursor down    |    e or 0       |  Eraser                         | 
-# | 06             |    x            |  color picker: green  ( g,s )   | 
-# | 07             |    c            |  color picker: yellow ( g,s )   | 
-# | 08             |    v            |  color picker: orange ( g,s )   | 
-# | 09             |    b            |  color picker: red    ( g,s )   | 
+# | 06             |    c            |  color picker: orange ( g,s )   | 
+# | 07             |    s            |  color picker: blue   ( g,s )   | 
+# | 08             |    z            |  color picker: green  ( g,s )   | 
+# | 09             |    r            |  color picker: black  ( g,s )   | 
 # | 02             |    v or 1       |  Selection                      | 
 # | 03             |    v or 1       |  Selection                      | 
 # | 11             |    h            |  Hand panning tool              | 
