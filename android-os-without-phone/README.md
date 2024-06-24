@@ -18,6 +18,11 @@
 ## ISO images
 * [lineage os](https://www.android-x86.org/releases/releasenote-cm-x86-14-1-r5.html)
 * [android os](https://www.android-x86.org/)
+How to run it:
+1. Install Android
+2. Restart
+3. Start 'Android LIVE'
+4. Android menu: Autoinstall to HardDisk
 
 ## Emulator
 * Android Studio
