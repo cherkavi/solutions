@@ -1,22 +1,22 @@
 evdev:input:b0003v1532p022Be0111*
 # keys: 01-05
- KEYBOARD_KEY_7001e=esc
- KEYBOARD_KEY_7001f=v
- KEYBOARD_KEY_70020=v
- KEYBOARD_KEY_70021=dot
- KEYBOARD_KEY_70022=delete
+ KEYBOARD_KEY_7001e=1
+ KEYBOARD_KEY_7001f=2
+ KEYBOARD_KEY_70020=3
+ KEYBOARD_KEY_70021=4
+ KEYBOARD_KEY_70022=5
 # keys: 06-10
- KEYBOARD_KEY_7002b=c
- KEYBOARD_KEY_70014=s
- KEYBOARD_KEY_7001a=z
- KEYBOARD_KEY_70008=r
- KEYBOARD_KEY_70015=o
+ KEYBOARD_KEY_7002b=6
+ KEYBOARD_KEY_70014=7
+ KEYBOARD_KEY_7001a=8
+ KEYBOARD_KEY_70008=9
+ KEYBOARD_KEY_70015=0
 # keys: 11-15
- KEYBOARD_KEY_70039=h
- KEYBOARD_KEY_70004=k
- KEYBOARD_KEY_70016=g
- KEYBOARD_KEY_70007=s
- KEYBOARD_KEY_70009=r
+ KEYBOARD_KEY_70039=s
+ KEYBOARD_KEY_70004=g
+ KEYBOARD_KEY_70016=h
+ KEYBOARD_KEY_70007=k
+ KEYBOARD_KEY_70009=delete
 # keys: 16-19
  KEYBOARD_KEY_700e1=z
  KEYBOARD_KEY_7001d=c
@@ -31,30 +31,91 @@ evdev:input:b0003v1532p022Be0111*
  KEYBOARD_KEY_700e2=leftctrl
  KEYBOARD_KEY_7002c=leftshift
 
+# | button numer |      action name    |  key   | 
+# |--------------|---------------------|--------| 
+# | 01           |        1            | 1      | 
+# | 02           |        2            | 2      | 
+# | 03           |        3            | 3      | 
+# | 04           |        4            | 4      | 
+# | 05           |        5            | 5      | 
+# | 06           |        6            | 6      | 
+# | 07           |        7            | 7      | 
+# | 08           |        8            | 8      | 
+# | 09           |        9            | 9      | 
+# | 10           |        0            | 0      | 
+# | push         |       Ctrl          | Ctrl   | 
+# | 16           | undo        Ctrl+ z | z      | 
+# | 17           | copy        Ctrl+ c | c      | 
+# | 18           | pase        Ctrl+ v | v      | 
+# | 19           | duplicate   Ctrl+ d | d      | 
+# | 20           |       Shift         | shift  | 
+# | cursor up    | Draw                | p or 7 | 
+# | cursor down  | Eraser              | e or 0 | 
+# | cursor left  | Line                | l or 6 | 
+# | cursor right | Arrow               | a or 5 | 
+# | 11           | color stroke        | s      | 
+# | 12           | color background    | g      | 
+# | 13           | Hand                | h      | 
+# | 14           | Laser pointer       | k      | 
+# | 15           | Delete              | delete | 
 
-# | button numer   |      key        |     action name                 | 
-# |----------------|-----------------|---------------------------------| 
-# | 01             |    Escape       |                                 | 
-# | 05             |    Delete       |                                 | 
-# | push           |    Ctrl         |                                 | 
-# | 16             |    z            |   undo           Ctrl+ z        | 
-# | 17             |    c            |   copy           Ctrl+ c        | 
-# | 18             |    v            |   pase           Ctrl+ v        | 
-# | 19             |    d            |   duplicate      Ctrl+ d        | 
-# | 20             |    shift        |                                 | 
-# | cursor left    |    l or 6       |  Line                           | 
-# | cursor up      |    p or 7       |  Draw                           | 
-# | cursor right   |    a or 5       |  Arrow                          | 
-# | cursor down    |    e or 0       |  Eraser                         | 
-# | 06             |    c            |  color picker: orange ( g,s )   | 
-# | 07             |    s            |  color picker: blue   ( g,s )   | 
-# | 08             |    z            |  color picker: green  ( g,s )   | 
-# | 09             |    r            |  color picker: black  ( g,s )   | 
-# | 02             |    v or 1       |  Selection                      | 
-# | 03             |    v or 1       |  Selection                      | 
-# | 11             |    h            |  Hand panning tool              | 
-# | 12             |    k            |  Laser pointer                  | 
-# | 13             |    g            |  Show background color picker   | 
-# | 14             |    s            |  Show stroke color picker       | 
-# | 10             |    o or 4       |  Ellipse                        | 
-# | 15             |    r or 2       |  Rectangle                      | 
+########################################################################
+## keys: 01-05
+# KEYBOARD_KEY_7001e=esc
+# KEYBOARD_KEY_7001f=v
+# KEYBOARD_KEY_70020=v
+# KEYBOARD_KEY_70021=dot
+# KEYBOARD_KEY_70022=delete
+## keys: 06-10
+# KEYBOARD_KEY_7002b=c
+# KEYBOARD_KEY_70014=s
+# KEYBOARD_KEY_7001a=z
+# KEYBOARD_KEY_70008=r
+# KEYBOARD_KEY_70015=o
+## keys: 11-15
+# KEYBOARD_KEY_70039=h
+# KEYBOARD_KEY_70004=k
+# KEYBOARD_KEY_70016=g
+# KEYBOARD_KEY_70007=s
+# KEYBOARD_KEY_70009=r
+## keys: 16-19
+# KEYBOARD_KEY_700e1=z
+# KEYBOARD_KEY_7001d=c
+# KEYBOARD_KEY_7001b=v
+# KEYBOARD_KEY_70006=d
+## cursor ( up, down, left, right)
+# KEYBOARD_KEY_70052=p
+# KEYBOARD_KEY_70051=e
+# KEYBOARD_KEY_70050=l
+# KEYBOARD_KEY_7004f=a
+## cursor buttons 
+# KEYBOARD_KEY_700e2=leftctrl
+# KEYBOARD_KEY_7002c=leftshift
+
+
+# | button numer   |     action name                 |      key        | 
+# |----------------|---------------------------------|-----------------| 
+# | 01             |                                 |    Escape       | 
+# | 05             |                                 |    Delete       | 
+# | push           |                                 |    Ctrl         | 
+# | 16             |   undo           Ctrl+ z        |    z            | 
+# | 17             |   copy           Ctrl+ c        |    c            | 
+# | 18             |   pase           Ctrl+ v        |    v            | 
+# | 19             |   duplicate      Ctrl+ d        |    d            | 
+# | 20             |                                 |    shift        | 
+# | cursor left    |  Line                           |    l or 6       | 
+# | cursor up      |  Draw                           |    p or 7       | 
+# | cursor right   |  Arrow                          |    a or 5       | 
+# | cursor down    |  Eraser                         |    e or 0       | 
+# | 06             |  color picker: orange ( g,s )   |    c            | 
+# | 07             |  color picker: blue   ( g,s )   |    s            | 
+# | 08             |  color picker: green  ( g,s )   |    z            | 
+# | 09             |  color picker: black  ( g,s )   |    r            | 
+# | 02             |  Selection                      |    v or 1       | 
+# | 03             |  Selection                      |    v or 1       | 
+# | 11             |  Hand panning tool              |    h            | 
+# | 12             |  Laser pointer                  |    k            | 
+# | 13             |  Show background color picker   |    g            | 
+# | 14             |  Show stroke color picker       |    s            | 
+# | 10             |  Ellipse                        |    o or 4       | 
+# | 15             |  Rectangle                      |    r or 2       | 
