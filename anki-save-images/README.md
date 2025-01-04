@@ -1,4 +1,11 @@
-1. copy from/via ftp
+# save images to Anki for learning
+
+## Alternatives
+* https://quizlet.com/
+* https://www.brainscape.com/
+
+## Steps
+1. copy images from/via ftp
 ```sh
 # go to temp folder
 temp
@@ -23,13 +30,13 @@ quit
 EOF
 
 
-2. add prefix to files  anki-wordcards
+2. for creating uniqueness in cloud/dropbox/nas storage - add prefix to files  anki-wordcards
 ```sh
-CUSTOM_PREFIX=anki-wordcards
+CUSTOM_PREFIX=card-word-
 add-prefix-to-all-files $CUSTOM_PREFIX
 ```
 
-3. replace spaces in names of files
+3. replace space-char in filenames
 ```sh
 all-files-replace-space
 ```
@@ -39,21 +46,24 @@ all-files-replace-space
 nautilus .
 ```
 
-5. for all files in current folder, upload to external image storage and save it on Dropbox
+5. for all files in current folder, upload to external image storage ( save it on Dropbox )
 ```sh
 all-files-img-upload-archive
+# result of this operation will be 
+# 1. uploading to cloud storage
+# 2. obtaining url to cloud storage ( publically accessible )
 ```
 
-6. read last uploaded files and create anki mapping 
+1. read last uploaded files and create anki mapping 
 ```sh
 CUSTOM_PREFIX=card-word-
-CUSTOM_POST_PREFIX=2023-08-29
 ANKI_IMPORT_FILE=$CUSTOM_PREFIX.anki-import.txt
 # check files to be imported
-cat $ARCHIVE_IMGBB_LIST | grep "${CUSTOM_PREFIX}${CUSTOM_POST_PREFIX}" | sort -V | wc -l
-COMMAND_RETRIEVE='cat $ARCHIVE_IMGBB_LIST | grep "${CUSTOM_PREFIX}${CUSTOM_POST_PREFIX}" | sort -V '
+cat $ARCHIVE_IMGBB_LIST | grep "${CUSTOM_PREFIX}" | sort -V | wc -l
+# create command for using during import file creation
+COMMAND_RETRIEVE='cat $ARCHIVE_IMGBB_LIST | grep "${CUSTOM_PREFIX}" | sort -V '
 ```
-create Anki Note like "Odd-Even"
+create Anki Note (import ready file) like "Odd-Even" ( front and back image for each card )
 ```sh
 # create header for anki-import file
 echo '#separator:tab
@@ -62,7 +72,7 @@ echo '#separator:tab
 eval $COMMAND_RETRIEVE | awk -F ',' '{print $2}' | awk -f $HOME_PROJECTS_GITHUB/bash-example/awk/shrink-lines-to-columns.awk | awk -F '<=>' '{print $1" "$2}' | awk '{print "\"<img src=\"\""$1"\"\">\"\t""\"<img src=\"\""$2"\"\">\""}' >> $ANKI_IMPORT_FILE
 ```
 
-7. import prepared file to anki
+1. import prepared file to anki
 ```sh
 cat $ANKI_IMPORT_FILE
 ```
