@@ -1,10 +1,27 @@
-# save images to Anki for learning
+# Anki 
+## fix manually collections in DB
+```sh
+# db place
+$USER/.local/share/Anki2/{anki_account_email_address}
 
-## Alternatives
+sqlite3 collection.anki2
+```
+```sql
+select * from decks;
+select * from cards;
+
+SELECT id, flds FROM notes WHERE flds LIKE '%gewissen%'; -- id of record 
+-- 	Field data, joined by \x1f (unit separator) — e.g., "Front text\x1fBack text"
+UPDATE notes SET flds = 'updated\x1ftext', mod = strftime('%s','now') WHERE id = 1743965509382;
+```
+
+## save images to Anki for learning
+
+### Alternatives
 * https://quizlet.com/
 * https://www.brainscape.com/
 
-## Steps
+### Steps
 1. copy images from/via ftp
 ```sh
 # go to temp folder
@@ -12,7 +29,8 @@ temp
 # create temp folder 
 mkdir anki; cd anki
 
-# copy data from the remove machine/phone, from folder 'sketches'
+# copy data from the remote machine/phone via FTP ( user:vitalii, password: vitalii )
+# from folder 'sketches'
 ftp -P $NOTE8_FTP_PORT -inv $NOTE8_FTP_HOST  <<EOF
 user vitalii vitalii
 cd sketches
@@ -21,7 +39,8 @@ mget *
 quit
 EOF
 
-# remove all files from remote folder, when you need
+# Optional step 
+# remove all files from remote folder via FTP ( user:vitalii, password: vitalii ) 
 ftp -P $NOTE8_FTP_PORT -inv $NOTE8_FTP_HOST  <<EOF
 user vitalii vitalii
 cd sketches
@@ -31,6 +50,7 @@ EOF
 
 
 2. for creating uniqueness in cloud/dropbox/nas storage - add prefix to files  anki-wordcards
+> check functions in https://github.com/cherkavi/bash-example.git
 ```sh
 CUSTOM_PREFIX=card-word-
 add-prefix-to-all-files $CUSTOM_PREFIX
@@ -49,12 +69,12 @@ nautilus .
 5. for all files in current folder, upload to external image storage ( save it on Dropbox )
 ```sh
 all-files-img-upload-archive
-# result of this operation will be 
+# result of this operation will be: 
 # 1. uploading to cloud storage
 # 2. obtaining url to cloud storage ( publically accessible )
 ```
 
-1. read last uploaded files and create anki mapping 
+6. read last uploaded files and create anki mapping 
 ```sh
 CUSTOM_PREFIX=card-word-
 ANKI_IMPORT_FILE=$CUSTOM_PREFIX.anki-import.txt
@@ -72,12 +92,12 @@ echo '#separator:tab
 eval $COMMAND_RETRIEVE | awk -F ',' '{print $2}' | awk -f $HOME_PROJECTS_GITHUB/bash-example/awk/shrink-lines-to-columns.awk | awk -F '<=>' '{print $1" "$2}' | awk '{print "\"<img src=\"\""$1"\"\">\"\t""\"<img src=\"\""$2"\"\">\""}' >> $ANKI_IMPORT_FILE
 ```
 
-1. import prepared file to anki
+7. import prepared file to anki
 ```sh
 cat $ANKI_IMPORT_FILE
 ```
 
-
+### shared scripts 
 ------------------
 ```sh
 function add-prefix-to-all-files(){ 
