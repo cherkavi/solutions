@@ -1,28 +1,69 @@
 # Anki 
-## fix manually collections in DB
+
+## from folder to [Anki via REST API](https://github.com/cherkavi/solutions/blob/master/anki-rest-api/README.md)
 ```sh
-# db place
-$USER/.local/share/Anki2/{anki_account_email_address}
+temp; mkdir anki; cd anki # your folder has only images for uploading to Anki
+CUSTOM_PREFIX=card-word-german-
+add-prefix-to-all-files $CUSTOM_PREFIX
+all-files-replace-space
+all-files-img-upload-archive
 
-sqlite3 collection.anki2
-```
-```sql
-select * from decks;
-select * from cards;
-
-SELECT id, flds FROM notes WHERE flds LIKE '%gewissen%'; -- id of record 
--- 	Field data, joined by \x1f (unit separator) — e.g., "Front text\x1fBack text"
-UPDATE notes SET flds = 'updated\x1ftext', mod = strftime('%s','now') WHERE id = 1743965509382;
+cat $ARCHIVE_IMGBB_LIST | grep "${CUSTOM_PREFIX}" | sort -V
+cat $ARCHIVE_IMGBB_LIST | grep "${CUSTOM_PREFIX}" | sort -V | awk -F ',' '{print $2}'
+cat $ARCHIVE_IMGBB_LIST | grep "${CUSTOM_PREFIX}" | sort -V | awk -F ',' '{print $2}' > list-images.txt
+cat list-images.txt
 ```
 
-## save images to Anki for learning
+front-only images
+```sh
+tag="de-sketches"
+desk=German
 
-### Alternatives
+for each_file in $(cat list-images.txt); do
+    front="<img src='$each_file'>"
+    back="..."
+
+    curl localhost:8765 -X POST -d @- <<EOF
+{
+    "action": "addNote",
+    "version": 6,
+    "params": {
+        "note": {
+            "deckName": "$desk",
+            "modelName": "Basic",
+            "fields": {
+                "Front": "$front",
+                "Back": "$back"
+            },
+            "tags": ["$tag"]
+        }
+    }
+}
+EOF
+echo ""
+done
+
+rm list-images.txt
+```
+
+
+front-back pairs
+```sh
+## header 
+ANKI_IMPORT_FILE=anki-import.txt
+echo '#separator:tab
+#html:true
+#tags column:3' > $ANKI_IMPORT_FILE
+## shrink lines to front-back pairs
+cat list-images.txt | awk -f $HOME_PROJECTS_GITHUB/bash-example/awk/shrink-lines-to-columns.awk | awk -F '<=>' '{print $1" "$2}' | awk '{print "\"<img src=\"\""$1"\"\">\"\t""\"<img src=\"\""$2"\"\">\""}' >> $ANKI_IMPORT_FILE
+```
+
+## from phone save images to Anki for learning
+Alternative solutions:
 * https://quizlet.com/
 * https://www.brainscape.com/
 
-### Steps
-1. copy images from/via ftp
+1. copy images from source via ftp
 ```sh
 # go to temp folder
 temp
@@ -47,25 +88,21 @@ cd sketches
 mdelete *
 quit
 EOF
-
-
+```
 2. for creating uniqueness in cloud/dropbox/nas storage - add prefix to files  anki-wordcards
 > check functions in https://github.com/cherkavi/bash-example.git
 ```sh
 CUSTOM_PREFIX=card-word-
 add-prefix-to-all-files $CUSTOM_PREFIX
 ```
-
 3. replace space-char in filenames
 ```sh
 all-files-replace-space
 ```
-
 4. Check all images for proper rotation position !
 ```sh 
 nautilus .
 ```
-
 5. for all files in current folder, upload to external image storage ( save it on Dropbox )
 ```sh
 all-files-img-upload-archive
@@ -73,7 +110,6 @@ all-files-img-upload-archive
 # 1. uploading to cloud storage
 # 2. obtaining url to cloud storage ( publically accessible )
 ```
-
 6. read last uploaded files and create anki mapping 
 ```sh
 CUSTOM_PREFIX=card-word-
@@ -91,7 +127,6 @@ echo '#separator:tab
 #tags column:3' > $ANKI_IMPORT_FILE
 eval $COMMAND_RETRIEVE | awk -F ',' '{print $2}' | awk -f $HOME_PROJECTS_GITHUB/bash-example/awk/shrink-lines-to-columns.awk | awk -F '<=>' '{print $1" "$2}' | awk '{print "\"<img src=\"\""$1"\"\">\"\t""\"<img src=\"\""$2"\"\">\""}' >> $ANKI_IMPORT_FILE
 ```
-
 7. import prepared file to anki
 ```sh
 cat $ANKI_IMPORT_FILE
@@ -121,5 +156,4 @@ function all-files-replace-space(){
         mv "$file_name" "$new_file_name";
     done
 }
-
 ```
