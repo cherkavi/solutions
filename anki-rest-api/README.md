@@ -1,16 +1,18 @@
 # Anki rest api update
-> locally installed Anki application with PlugIn ankiconnect
+## description 
+source:  csv from google translator ( saved translations )
+destination: locally installed Anki application with PlugIn ankiconnect ( REST API ) use as a   
 
 ## importing from Google translator
 1. https://translate.google.com/saved?sl=ru&tl=de&op=translate
-2. export to csv/excel
-3. download as csv to 
+2. export to Google Sheets
+3. from Google Sheets: File ->download-> as csv
    ```sh
    input_file="$HOME/Downloads/Saved translations - Saved translations.csv"
    ls -la "$input_file"
    ```
 4. "clear all saved"
-5. open anki locally ( [plugin](#anki-plugin-ankiconnect) will be activated )
+5. open anki locally ( check [installation](#installation), [plugin](#anki-plugin-ankiconnect) will be activated )
 6. run script
    > be aware name of your Deck should be the same as language in column 1 ( German, English ... )
    ```sh
@@ -19,9 +21,15 @@
    python3 anki-translate-uploader.py "$input_file"
    ```
 
-## [Anki locally installed application](https://apps.ankiweb.net/#download)
 
-## Anki plugin: AnkiConnect
+## installation 
+### [Anki locally installed application](https://apps.ankiweb.net/#download)
+```sh
+# check version 
+anki --version
+```
+
+### Anki plugin: AnkiConnect
 * id: 2055492159
 * https://ankiweb.net/shared/info/2055492159
 * [github](https://github.com/FooSoft/anki-connect/tree/ankiweb?tab=readme-ov-file)
@@ -33,7 +41,6 @@ grep -r "@util.api" -A 2 | grep 'def '
 
 ```sh
 ## check installation 
-
 curl localhost:8765 -X POST -d '{
     "action": "version", 
     "version": 6
@@ -89,3 +96,4 @@ curl localhost:8765 -X POST -d '{
     }
 }'
 ```
+
