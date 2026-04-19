@@ -1,8 +1,21 @@
 # hjkl for managing cursor and mouse
+Change keymapping and/or keybinding for your keyboard.
 current solution works ( tested ) for Ubuntu OS.  
 [possible useful link](https://wiki.archlinux.org/title/X_keyboard_extension)
 
 ## cursor with [caps lock]+hjkl
+
+### find out proper magic names of your keyboard
+```sh
+### press key to see the name/code
+xev
+
+### print all existing keys and names
+xkbcomp $DISPLAY - 
+```
+
+
+### apply keyboard changes for your system
 ```sh
 sudo vim /usr/share/X11/xkb/symbols/us
 ```
@@ -29,6 +42,8 @@ and add next lines
     key <CAPS> { [ ISO_Level3_Shift ] };
 //  PrintScr/Druck button to Win/Super
     key <PRSC> { [ Super_L ] };
+//  Menu button to Win/Super
+    key <COMP> { [ Super_L ] };
 }
 ```
 alternative solution
