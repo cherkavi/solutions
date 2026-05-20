@@ -11,15 +11,21 @@ destination: locally installed Anki application with PlugIn ankiconnect ( REST A
    input_file="$HOME/Downloads/Saved translations - Saved translations.csv"
    ls -la "$input_file"
    ```
-4. "clear all saved"
-5. open anki locally ( check [installation](#installation), [plugin](#anki-plugin-ankiconnect) will be activated )
-6. run script
+4. open anki locally ( check [installation](#installation), [plugin](#anki-plugin-ankiconnect) will be activated )
+   ```sh
+   export ANKI_WAYLAND=1
+   ./anki
+   ```
+5. run script
    > be aware name of your Deck should be the same as language in column 1 ( German, English ... )
    ```sh
    head "$input_file"
    
+   pip3 install requests
    python3 anki-translate-uploader.py "$input_file"
    ```
+6. https://translate.google.com/saved?sl=ru&tl=de&op=translate  
+   UI -> right panel -> vertical 3-dots -> "clear all saved"
 
 
 ## installation 
