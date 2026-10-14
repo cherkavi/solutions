@@ -37,7 +37,7 @@ while read -r md5 filename relative_dir || [[ -n "${md5:-}" ]]; do
     fi
 
     if [[ -f "$source" ]]; then
-        cp -n -- "$source" "$DEST_DIR/$filename"
+        cp --update=none -- "$source" "$DEST_DIR/$filename"
         echo "Copied: $source -> $DEST_DIR/$filename"
     else
         echo "WARNING: File not found: $source" >&2
