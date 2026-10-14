@@ -6,27 +6,16 @@ DEST="${2:?Usage: $0 diff_file destination}"
 
 mkdir -p -- "$DEST"
 
-while IFS= read -r LINE || [[ -n "$LINE" ]]; do
-    [[ "$LINE" =~ ^[[:space:]]*$ ]] && continue
-
-    # Parse: MD5 HASH, FILENAME, DIRECTORY PATH
-    HASH="${LINE%%[[:space:]]*}"
-    REST="${LINE#"$HASH"}"
-    REST="${REST#"${REST%%[![:space:]]*}"}"
-
-    FILE="${REST%%[[:space:]]*}"
-    DIR="${REST#"$FILE"}"
-    DIR="${DIR#"${DIR%%[![:space:]]*}"}"
+while IFS=$'\t' read -r HASH FILE DIR || [[ -n "${HASH:-}" ]]; do
+    [[ -z "${HASH:-}" || -z "${FILE:-}" || -z "${DIR:-}" ]] && continue
 
     SRC="${DIR%/}/$FILE"
     REL="${SRC#./}"
-    TARGET="$DEST/$REL"
 
     if [[ -f "$SRC" ]]; then
-        mkdir -p -- "$(dirname -- "$TARGET")"
-        if cp --update=none -- "$SRC" "$TARGET"; then
-            printf 'Copied: %s\n' "$SRC"
-        fi
+        mkdir -p -- "$DEST/$(dirname -- "$REL")"
+        cp --update=none -- "$SRC" "$DEST/$REL"
+        printf 'Copied: %s\n' "$SRC"
     else
         printf 'Missing: %s\n' "$SRC" >&2
     fi

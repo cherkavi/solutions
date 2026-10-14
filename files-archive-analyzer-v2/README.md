@@ -22,6 +22,7 @@ ls -la $PATH_MD5_FILENAME
 
 $HOME_PROJECTS_GITHUB/solutions/files-archive-analyzer-v2/collect-md5sum.sh  $PATH_MD5_FILENAME
 # waiting for "Done !"
+wc -l $PATH_MD5_FILENAME
 ```
 
 ## find all duplicated md5sum
