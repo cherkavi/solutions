@@ -31,12 +31,19 @@ destination: locally installed Anki application with PlugIn ankiconnect ( REST A
 ## installation 
 ### [Anki locally installed application](https://apps.ankiweb.net/#download)
 ```sh
+sudo snap install anki-desktop
+
+anki-web
+anki-desktop --version
+
 # check version 
 anki --version
 ```
 
 ### Anki plugin: AnkiConnect
+* https://git.sr.ht/~foosoft/anki-connect
 * id: 2055492159
+  Anki -> ctrl+shift+a -> 2055492159
 * https://ankiweb.net/shared/info/2055492159
 * [github](https://github.com/FooSoft/anki-connect/tree/ankiweb?tab=readme-ov-file)
 * installed folder 
@@ -45,7 +52,12 @@ cd $HOME/.local/share/Anki2/addons21/2055492159
 grep -r "@util.api" -A 2 | grep 'def '
 ```
 
+⚠️ restart anki after plugin installation
 ```sh
+curl --request POST http://127.0.0.1:8765/api/v1 \
+  --header 'Content-Type: application/json' \
+  --data '{"jsonrpc":"2.0","id":1,"method":"decks.list","params":{}}'
+
 ## check installation 
 curl localhost:8765 -X POST -d '{
     "action": "version", 
