@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "chromadb": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-chromadb"],
+      "env": {
+        "CHROMA_URL": "http://localhost:8000",
+        "COLLECTION_NAME": "video_lectures"
+      }
+    }
+  }
+}

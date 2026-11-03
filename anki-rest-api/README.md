@@ -1,5 +1,6 @@
-# Anki rest api update
-## description 
+# Anki rest api 
+
+## description of the solution 
 source:  csv from google translator ( saved translations )
 destination: locally installed Anki application with PlugIn ankiconnect ( REST API ) use as a   
 
@@ -28,15 +29,24 @@ destination: locally installed Anki application with PlugIn ankiconnect ( REST A
    UI -> right panel -> vertical 3-dots -> "clear all saved"
 
 
-## installation 
-### [Anki locally installed application](https://apps.ankiweb.net/#download)
+## anki installation 
+[Anki locally installed application](https://apps.ankiweb.net/#download)
 ```sh
+sudo snap install anki-desktop
+
+anki-web
+anki-desktop --version
+
 # check version 
 anki --version
 ```
 
-### Anki plugin: AnkiConnect
+## Anki plugin installation: AnkiConnect
+
+### installation
+* https://git.sr.ht/~foosoft/anki-connect
 * id: 2055492159
+  Anki -> ctrl+shift+a -> 2055492159
 * https://ankiweb.net/shared/info/2055492159
 * [github](https://github.com/FooSoft/anki-connect/tree/ankiweb?tab=readme-ov-file)
 * installed folder 
@@ -45,7 +55,13 @@ cd $HOME/.local/share/Anki2/addons21/2055492159
 grep -r "@util.api" -A 2 | grep 'def '
 ```
 
+### read operations
+⚠️ restart anki after plugin installation
 ```sh
+curl --request POST http://127.0.0.1:8765/api/v1 \
+  --header 'Content-Type: application/json' \
+  --data '{"jsonrpc":"2.0","id":1,"method":"decks.list","params":{}}'
+
 ## check installation 
 curl localhost:8765 -X POST -d '{
     "action": "version", 
@@ -77,13 +93,13 @@ curl -s localhost:8765 -X POST -d '{
 curl -s localhost:8765 -X POST -d '{
     "action": "cardsInfo", 
     "params": {
-        "cards": [1697046994506]
+        "cards": [1760275143789]
     },    
     "version": 6
 }' | jq .
 ```
 
-
+### add card/note
 ```sh
 ## add Note
 curl localhost:8765 -X POST -d '{
@@ -103,3 +119,29 @@ curl localhost:8765 -X POST -d '{
 }'
 ```
 
+# Update cards automatically
+> some of the old cards have a "one-word" as a question instead of the sentence
+## Steps 
+1. download all the cards in the files in json format ( card_id, question, answer )
+2. select only files with question less or equals two words
+3. for each selected file create new file ".json.update" with addtional field ".question_sentence"
+4. read all the files ".json.update" and make 
+
+## Download all the cards from Anki to local folder
+```sh
+./walk-through-desk-save-q-a.sh
+
+DECK_NAME=English
+ls decks/$DECK_NAME
+```
+```json
+{"card_id":1519305733793,"question":"blast","answer":"explosion, brust"}
+```
+
+### walk through all the files 
+* select only quesiton less or equals 2 words
+* I want to learn english word "$question" - create one sentence with this word to depict its meaning 
+```sh
+export DECK_NAME=English
+./walk-through-qa-extend-with-sentence.sh
+```
