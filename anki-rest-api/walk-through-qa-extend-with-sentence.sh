@@ -9,17 +9,21 @@ for file in decks/"$DECK_NAME"/*.json; do
 
   # If question is not empty (meaning it matched the condition)
   if [ -n "$question" ]; then
+    echo "---------"
     echo "File:     $fname"
     echo "Question: $question"
     echo "Answer:   $answer"
     destination_file="decks/${DECK_NAME}/"$(basename "$file")".update"
 
     if [ ! -e $destination_file ]; then   # re-run possibility         
-        request="I want to learn english word $question - create one sentence with this word to depict its meaning. Output ONLY the pure answer to the input text provided via stdin. Exclude all wrappers, formatting, and commentary"
+        request="For english word $question - create one sentence with this word to depict its meaning. Output ONLY the pure answer via stdin. Exclude all wrappers, formatting, and commentary"
         # request="I want to learn english word $question - create one sentence with this word to depict its meaning. Generate MP3 file with this sentence $fname.mp3 . Output ONLY the pure answer to the input text provided via stdin. Exclude all wrappers, formatting, and commentary"
-        generated_sentence=$(opencode run "$request")
-        echo "------"
-        echo $generated_sentence
+        
+        # generated_sentence=$(opencode run "$request")
+        generated_sentence=$(copilot -p "$request" --silent)
+        if [ -z "$generated_sentence" ]; then
+            break
+        fi
 
         echo "$card_id" 
         echo "$question" 

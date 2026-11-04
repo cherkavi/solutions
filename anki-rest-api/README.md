@@ -119,15 +119,33 @@ curl localhost:8765 -X POST -d '{
 }'
 ```
 
+### update card/note
+```sh
+curl localhost:8765 -X POST -d '{
+    "action": "updateNoteFields",
+    "version": 6,
+    "params": {
+        "note": {
+            "id": 1564604895650,
+            "fields": {
+                "Front": "-> faith <br> She never lost faith that her missing cat would find its way home, even after months of waiting.",
+                "Back": "вера"
+            }
+        }
+    }
+}'
+```
+
 # Update cards automatically
 > some of the old cards have a "one-word" as a question instead of the sentence
 ## Steps 
 1. download all the cards in the files in json format ( card_id, question, answer )
-2. select only files with question less or equals two words
-3. for each selected file create new file ".json.update" with addtional field ".question_sentence"
-4. read all the files ".json.update" and make 
+2. select only files with question less or equals two words  
+   for each selected file create new file ".json.update" with addtional field ".question_sentence"
+3. read all the files ".json.update" and make update via Anki REST API
 
-## Download all the cards from Anki to local folder
+
+### 1. Download all the cards from Anki to local folder
 ```sh
 ./walk-through-desk-save-q-a.sh
 
@@ -138,10 +156,16 @@ ls decks/$DECK_NAME
 {"card_id":1519305733793,"question":"blast","answer":"explosion, brust"}
 ```
 
-### walk through all the files 
+### 2. walk through all the files and create 'update json' for 1-2 words 
 * select only quesiton less or equals 2 words
 * I want to learn english word "$question" - create one sentence with this word to depict its meaning 
 ```sh
 export DECK_NAME=English
 ./walk-through-qa-extend-with-sentence.sh
+```
+
+### 3. read all the files ".json.update" and make update via Anki REST API
+```sh
+export DECK_NAME=English
+./walk-through-update-call-restapi.sh
 ```
