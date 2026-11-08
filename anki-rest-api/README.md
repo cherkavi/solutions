@@ -136,7 +136,57 @@ curl localhost:8765 -X POST -d '{
 }'
 ```
 
-# Update cards automatically
+# Solution: book parsing
+## prompt
+Parse attached image.
+It has table with columns:
+<France word>  <German translation>  <france sentence with france word> <sentence translation german>
+create JSON array with objects using keys: france, german, sentence_france, sentence_german.
+Check france sentence for validity.
+Do not use in "sentence_france" any german sentences.
+Skip line if no "sentence_france" or no sentence_german.
+Skip line if "sentence_france" equals sentence_german.
+
+For Example for line::
+```
+le papier[....]    das Papier        une boulette de papier
+                                     ein Papierkugelchen
+```
+
+Need to translate to:
+```json
+[
+  {
+    "france":"le papier", 
+    "german":"das Papier", 
+    "sentence_france":"une boulette de papier", 
+    "sentence_german":"ein Papierkugelchen"
+  }
+]
+```
+## result of the prompt
+```json
+[
+	{
+		"france": "savoir faire qc",
+		"german": "etwas tun können (wissen, wie etwas geht)",
+		"sentence_france": "Ils ne savent pas faire les listes ou quoi ?",
+		"sentence_german": "Können sie keine Listen machen oder was?"
+	},
+	{
+		"france": "une blague",
+		"german": "ein Scherz; ein Streich",
+		"sentence_france": "C'est une blague ?",
+		"sentence_german": "Ist das ein Scherz?"
+	},
+```
+## create cards
+```sh
+./book-parsing-create-cards.sh /home/projects/temp/words.json
+```
+
+
+# Solution: Update cards automatically
 > some of the old cards have a "one-word" as a question instead of the sentence
 ## Steps 
 1. download all the cards in the files in json format ( card_id, question, answer )
