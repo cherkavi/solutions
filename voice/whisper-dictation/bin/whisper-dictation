@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+set -euo pipefail
+SERVICE="whisper-dictation.service"
+SOCKET="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/whisper-dictation.sock"
+request() {
+  python3 - "$SOCKET" "$1" <<'PY'
+import json, socket, sys
+s=socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+s.settimeout(3)
+s.connect(sys.argv[1]); s.sendall((sys.argv[2]+'\n').encode())
+print(s.recv(4096).decode().strip())
+PY
+}
+ensure_service() {
+  systemctl --user start "$SERVICE"
+  for _ in {1..30}; do [[ -S "$SOCKET" ]] && return 0; sleep 0.2; done
+  echo "Daemon socket did not appear. Check: journalctl --user -u $SERVICE -n 80" >&2
+  exit 1
+}
+case "${1:-help}" in
+  start)
+    ensure_service
+    request '{"action":"mode","mode":"continuous"}'
+    ;;
+  stop)
+    systemctl --user stop "$SERVICE"
+    echo "Whisper dictation stopped."
+    ;;
+  restart)
+    systemctl --user restart "$SERVICE"
+    ensure_service
+    request '{"action":"mode","mode":"continuous"}'
+    ;;
+  status)
+    if systemctl --user is-active --quiet "$SERVICE" && [[ -S "$SOCKET" ]]; then
+      request '{"action":"status"}'
+    else
+      echo "Whisper dictation is stopped."
+      systemctl --user --no-pager status "$SERVICE" || true
+    fi
+    ;;
+  ptt)
+    ensure_service
+    request '{"action":"toggle"}'
+    ;;
+  continuous)
+    ensure_service
+    request '{"action":"mode","mode":"continuous"}'
+    ;;
+  logs)
+    journalctl --user -u "$SERVICE" -f
+    ;;
+  output)
+    mkdir -p "$HOME/Documents/Transcriptions"
+    xdg-open "$HOME/Documents/Transcriptions" 2>/dev/null || ls -lh "$HOME/Documents/Transcriptions"
+    ;;
+  clear)
+    OUT="$HOME/Documents/Transcriptions"
+    read -r -p "Clear speech.txt and speech.md? [y/N] " answer
+    [[ "$answer" =~ ^[Yy]$ ]] || exit 0
+    : > "$OUT/speech.txt"; : > "$OUT/speech.md"
+    echo "Transcription files cleared."
+    ;;
+  *)
+    echo "Usage: whisper-dictation {start|stop|restart|status|ptt|continuous|logs|output|clear}"
+    exit 2
+    ;;
+esac

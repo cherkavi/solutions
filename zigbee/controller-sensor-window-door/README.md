@@ -97,12 +97,24 @@ cat /opt/zigbee2mqtt/docker-compose.yml
 
 ## start docker 
 ```sh
-cd /opt/zigbee2mqtt
-sudo docker compose up -d 
+# Start Docker Compose in detached mode
+./zigbee2mqtt-manager.sh start
 
-# sudo docker compose down
+# Follow container logs (Ctrl+C to exit)
+./zigbee2mqtt-manager.sh logs
 
-sudo docker compose logs -f
+# Stop and remove Compose containers and networks
+./zigbee2mqtt-manager.sh stop
+
+# Restart only zigbee2mqtt
+./zigbee2mqtt-manager.sh restart
+
+# check started container 
+./zigbee2mqtt-manager.sh status
+docker ps 
+
+# start browser with 
+./zigbee2mqtt-manager.sh start-browser
 ```
 
 possible positive response

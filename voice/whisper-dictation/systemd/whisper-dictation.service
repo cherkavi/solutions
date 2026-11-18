@@ -1,0 +1,13 @@
+[Unit]
+Description=Local Whisper speech-to-text daemon
+After=default.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/share/whisper-dictation/.venv/bin/python %h/.local/share/whisper-dictation/src/speechd.py --mode ptt
+Restart=on-failure
+RestartSec=3
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target
