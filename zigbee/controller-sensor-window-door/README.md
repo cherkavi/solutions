@@ -24,6 +24,23 @@ sudo systemctl status mosquitto
 sudo apt install docker.io docker-compose-v2
 ```
 
+## configuration
+```sh
+cat /etc/mosquitto/mosquitto.conf
+
+ls -la /var/lib/mosquitto/
+```
+configuration example
+```
+persistence true
+persistence_location /mosquitto/data/
+log_dest stdout
+
+listener 1883 0.0.0.0
+allow_anonymous false
+password_file /mosquitto/config/passwords
+```
+
 ## check installation 
 ```sh
 ## terminal #1
