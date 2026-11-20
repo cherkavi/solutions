@@ -1,0 +1,12 @@
+name: monitoring
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:2
+    container_name: uptime-kuma
+    restart: unless-stopped
+    volumes:
+      - /srv/homelab/data/uptime-kuma:/app/data
+    ports:
+      - "3001:3001"
+    mem_limit: 300m

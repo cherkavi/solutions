@@ -1,0 +1,21 @@
+name: storage
+
+services:
+  syncthing:
+    image: lscr.io/linuxserver/syncthing:latest
+    container_name: syncthing
+    hostname: home-server
+    restart: unless-stopped
+    environment:
+      PUID: ${PUID:-1000}
+      PGID: ${PGID:-1000}
+      TZ: ${TZ:-Europe/Berlin}
+    volumes:
+      - /srv/homelab/data/syncthing:/config
+      - /srv/homelab/files:/data
+    ports:
+      - "127.0.0.1:8384:8384"
+      - "22000:22000/tcp"
+      - "22000:22000/udp"
+      - "21027:21027/udp"
+    mem_limit: 350m

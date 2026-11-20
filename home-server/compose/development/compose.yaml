@@ -1,0 +1,63 @@
+name: development
+
+services:
+  gitea:
+    image: docker.gitea.com/gitea:latest
+    container_name: gitea
+    restart: unless-stopped
+    environment:
+      USER_UID: ${PUID:-1000}
+      USER_GID: ${PGID:-1000}
+      GITEA__database__DB_TYPE: postgres
+      GITEA__database__HOST: postgres:5432
+      GITEA__database__NAME: ${POSTGRES_DB:-homelab}
+      GITEA__database__USER: ${POSTGRES_USER:-homelab}
+      GITEA__database__PASSWD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - /srv/homelab/data/gitea:/data
+    ports:
+      - "3000:3000"
+      - "2222:22"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    mem_limit: 400m
+    networks:
+      - development
+
+  postgres:
+    image: postgres:17
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-homelab}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-homelab}
+    volumes:
+      - /srv/homelab/data/postgresql:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-homelab} -d ${POSTGRES_DB:-homelab}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    mem_limit: 500m
+    networks:
+      - development
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    restart: unless-stopped
+    volumes:
+      - /srv/homelab/data/qdrant:/qdrant/storage
+    ports:
+      - "127.0.0.1:6333:6333"
+    mem_limit: 500m
+    networks:
+      - development
+
+networks:
+  development:
+    name: development

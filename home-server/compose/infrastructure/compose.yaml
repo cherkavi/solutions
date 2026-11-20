@@ -1,0 +1,16 @@
+name: infrastructure
+
+services:
+  adguardhome:
+    image: adguard/adguardhome:latest
+    container_name: adguardhome
+    restart: unless-stopped
+    volumes:
+      - /srv/homelab/data/adguard/work:/opt/adguardhome/work
+      - /srv/homelab/data/adguard/conf:/opt/adguardhome/conf
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "3002:3000/tcp"
+      - "8082:80/tcp"
+    mem_limit: 250m

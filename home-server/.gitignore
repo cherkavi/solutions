@@ -1,0 +1,23 @@
+.env
+.env.*
+!.env.example
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+
+# Runtime data and credentials
+data/
+backups/
+secrets/
+config/zigbee2mqtt/configuration.yaml
+config/mosquitto/passwords
+config/mosquitto/certs/
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+id_rsa
+id_ed25519

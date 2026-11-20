@@ -1,0 +1,12 @@
+name: ai
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: "no"
+    volumes:
+      - /srv/homelab/data/ollama:/root/.ollama
+    ports:
+      - "127.0.0.1:11434:11434"
+    mem_limit: 3g

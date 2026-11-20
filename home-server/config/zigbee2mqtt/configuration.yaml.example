@@ -1,0 +1,26 @@
+# Copy this file to /srv/homelab/data/zigbee2mqtt/configuration.yaml.
+# Replace MQTT credentials with the values created using mosquitto_passwd.
+homeassistant:
+  enabled: true
+
+frontend:
+  enabled: true
+  port: 8081
+
+mqtt:
+  server: mqtt://mosquitto:1883
+  user: REPLACE_WITH_MQTT_USERNAME
+  password: REPLACE_WITH_MQTT_PASSWORD
+
+serial:
+  port: /dev/ttyUSB0
+  adapter: zstack
+
+advanced:
+  log_level: info
+  channel: 15
+  network_key: GENERATE
+
+# Check Zigbee2MQTT documentation and your existing coordinator settings
+# before migrating an existing network. Preserve the existing network key
+# and coordinator backup; do not generate a new network accidentally.

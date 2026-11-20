@@ -1,0 +1,51 @@
+name: smart-home
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mosquitto
+    restart: unless-stopped
+    volumes:
+      - /srv/homelab/data/mosquitto/config:/mosquitto/config:ro
+      - /srv/homelab/data/mosquitto/data:/mosquitto/data
+      - /srv/homelab/data/mosquitto/log:/mosquitto/log
+    ports:
+      - "127.0.0.1:1883:1883"
+    mem_limit: 128m
+    networks:
+      - smart-home
+
+  zigbee2mqtt:
+    image: koenkk/zigbee2mqtt:latest
+    container_name: zigbee2mqtt
+    restart: unless-stopped
+    depends_on:
+      - mosquitto
+    environment:
+      TZ: ${TZ:-Europe/Berlin}
+    volumes:
+      - /srv/homelab/data/zigbee2mqtt:/app/data
+      - /run/udev:/run/udev:ro
+    devices:
+      - "${ZIGBEE_DEVICE}:/dev/ttyUSB0"
+    ports:
+      - "8081:8080"
+    mem_limit: 350m
+    networks:
+      - smart-home
+
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: homeassistant
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      TZ: ${TZ:-Europe/Berlin}
+    volumes:
+      - /srv/homelab/data/homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+    mem_limit: 900m
+
+networks:
+  smart-home:
+    name: smart-home
