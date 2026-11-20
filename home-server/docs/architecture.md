@@ -14,31 +14,31 @@ Ubuntu Server runs the hardware and host responsibilities:
 
 Docker Compose runs application workloads:
 
-| Project | Services | Default state |
-|---|---|---|
-| smart-home | Home Assistant, Mosquitto, Zigbee2MQTT | Always on |
-| storage | Syncthing | Always on |
-| monitoring | Uptime Kuma | Always on |
-| infrastructure | AdGuard Home | Optional |
-| development | Gitea, PostgreSQL, Qdrant | On demand |
-| ai | Ollama | On demand |
+| Project        | Services                               | Default state |
+| ---            | ---                                    | ---           |
+| smart-home     | Home Assistant, Mosquitto, Zigbee2MQTT | Always on     |
+| storage        | Syncthing                              | Always on     |
+| monitoring     | Uptime Kuma                            | Always on     |
+| infrastructure | AdGuard Home                           | Optional      |
+| development    | Gitea, PostgreSQL, Qdrant              | On demand     |
+| ai             | Ollama                                 | On demand     |
 
 ## 8 GB RAM policy
 
 The budgets below are starting limits, not measured consumption. Tune after observing real usage.
 
-| Workload | Initial memory ceiling |
-|---|---:|
-| Host OS, Docker, system services | Reserve 1.5–2 GB |
-| Home Assistant | 900 MB |
-| Zigbee2MQTT | 350 MB |
-| Mosquitto | 128 MB |
-| Syncthing | 350 MB |
-| Uptime Kuma | 300 MB |
-| Gitea | 400 MB |
-| PostgreSQL | 500 MB |
-| Qdrant | 500 MB |
-| Ollama | 3 GB, on demand |
+| Workload                         | Initial memory ceiling |
+| ---                              | ---:                   |
+| Host OS, Docker, system services | Reserve 1.5–2 GB       |
+| Home Assistant                   | 900 MB                 |
+| Zigbee2MQTT                      | 350 MB                 |
+| Mosquitto                        | 128 MB                 |
+| Syncthing                        | 350 MB                 |
+| Uptime Kuma                      | 300 MB                 |
+| Gitea                            | 400 MB                 |
+| PostgreSQL                       | 500 MB                 |
+| Qdrant                           | 500 MB                 |
+| Ollama                           | 3 GB, on demand        |
 
 Do not start all optional projects simultaneously. Ollama's model memory and inference context can exceed container expectations. Start with a small quantized model and benchmark.
 

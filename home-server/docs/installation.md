@@ -158,9 +158,11 @@ sudo docker run --rm hello-world
 docker compose version
 ```
 
-## Prepare configurations 
+## Smart Home Configuration 
 ### Configure Mosquitto
 #### mosquitto passwords
+Configure the same username/password in Zigbee2MQTT's private `configuration.yaml`. 
+Home Assistant can connect to `127.0.0.1:1883` because it uses host networking.
 ```bash
 ###########
 # file with passwords, if you are using it 
@@ -187,13 +189,8 @@ sudo chown -R 1883:1883 /srv/homelab/data/mosquitto
 exit 
 ```
 
-#### start docker compose 
-
-
-Use a strong password. Configure the same username/password in Zigbee2MQTT's private `configuration.yaml`. Home Assistant can connect to `127.0.0.1:1883` because it uses host networking.
-
-## 4. Configure Zigbee2MQTT
-### start with init installation 
+### Configure Zigbee2MQTT
+#### start with init installation 
 ```bash
 cat config/zigbee2mqtt/configuration.yaml.example
 sudo cp config/zigbee2mqtt/configuration.yaml.example /srv/homelab/data/zigbee2mqtt/configuration.yaml
@@ -203,31 +200,24 @@ nano /srv/homelab/data/zigbee2mqtt/configuration.yaml
 Ensure the `serial.port` inside the container is `/dev/ttyUSB0`. The Compose file maps the host's `/dev/serial/by-id/...` path to that container path. Confirm the correct adapter type for your coordinator firmware.
 For a Sonoff ZBDongle-P with Z-Stack firmware, `adapter: zstack` is commonly used. Do not change coordinator firmware or network settings during a simple server migration.
 
-### copy your existing data files 
-```
-./docker-compose.yml
+#### copy your existing data files 
+```sh
 /srv/homelab/data/zigbee2mqtt/database.db
 /srv/homelab/data/zigbee2mqtt/state.json
 /srv/homelab/data/zigbee2mqtt/configuration.yaml
 /srv/homelab/data/zigbee2mqtt/coordinator_backup.json
 ```
 
-
-
-
-## 9. Start smart home
-
+## Smart Home start
 ```bash
 cd /opt/homelab-ubuntu
 ./scripts/management/homelab.sh config smart-home
 ./scripts/management/homelab.sh up smart-home
 ./scripts/management/homelab.sh status
 ```
-
 Open Home Assistant at `http://SERVER_LAN_IP:8123` and Zigbee2MQTT at `http://SERVER_LAN_IP:8081`.
 
 ## 10. Deploy other projects gradually
-
 ```bash
 ./scripts/management/homelab.sh up storage
 ./scripts/management/homelab.sh up monitoring
