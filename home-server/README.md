@@ -23,8 +23,6 @@ home server with:
 - [Installation](docs/installation.md)  
   ⚠️ read before executing anything
 - [Networking](docs/networking.md)
-- [Security](docs/security.md)  
-  Review before exposing services
 - [Services](docs/services.md)
 - [Backup and recovery](docs/backup-and-recovery.md)
 - [Operations runbook](docs/operations.md)

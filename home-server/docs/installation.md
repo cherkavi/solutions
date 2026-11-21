@@ -1,18 +1,22 @@
 # Installation guide
-## 0. prerequisites 
+
+## prerequisites 
+
 * you have main computer with installed Visual Code on it
 * you have cloned this repo and using current file as a starting point
 * your Ubuntu server is going to be installed on another computer
 
-## 1. Install Ubuntu Server
+## Install Ubuntu Server
 
 ### During installation:
+
 - Select Ubuntu Server, not Desktop.
 - Enable OpenSSH Server.
 - Use a strong named administrator account.
 - Optional: Prefer full-disk encryption if you can manage unattended reboot/unlock requirements.
 
 ### After first boot:
+
 ```bash
 sudo apt update
 sudo apt full-upgrade -y
@@ -24,9 +28,11 @@ sudo reboot
 ```
 
 ### WiFi router settings 
+
 Create a DHCP reservation for the server in your router (WiFi mesh).  
 
 ### check your SSH connection 
+
 ```sh
 ## create alias for connection: server-home-ssh
 sshpass -p "$SERVER_PASSWORD" ssh "$SERVER_USER@$SERVER_HOST"
@@ -91,7 +97,7 @@ sudo timedatectl set-timezone Europe/Berlin
 exit
 ```
 
-## 2. Adjust common variables in .env file 
+## Adjust common variables in .env file 
 ### create .env file 
 ```bash
 cp .env.example .env
@@ -112,7 +118,7 @@ cat .env
 server-home-ssh id
 ```
 
-## 3. Install host packages
+## Install host packages
 Review scripts before running:
 ```bash
 server-home-ssh
@@ -134,13 +140,22 @@ sudo apt-get install -y docker.io docker-buildx docker-compose-v2
 
 sudo groupadd docker
 sudo usermod -aG docker $USER 
+```
 
+### check ports
+```sh
+# check all open listening ports 
+sudo ss -tulnp
+```
+
+## Create folders
+```sh
 ################################################
 ## create folders/persistent for upcoming docker containers 
 BASE=/srv/homelab
 sudo mkdir -p $BASE
 sudo chown -R "$USER" "$BASE"
-install -d -m 0755 "$BASE"/{data,files,backups,logs}
+install -d -m 0755 "$BASE"/{data,files,backups,logs,docker}
 for d in homeassistant zigbee2mqtt mosquitto syncthing uptime-kuma adguard gitea postgresql qdrant ollama; do
   install -d -m 0750 "$BASE/data/$d"
 done
@@ -159,7 +174,46 @@ docker compose version
 ```
 
 ## Smart Home Configuration 
-### Configure Mosquitto
+
+### Mosquitto check installation 
+```sh
+## installation via package manager
+# sudo apt install -y mosquitto 
+mosquitto
+
+## installation during Ubuntu installation 
+# snap install mosquitto
+snap list | grep mosquitto
+sudo snap remove mosquitto
+```
+
+#### mosquitto config
+```sh
+server-home-ssh cat /etc/mosquitto/mosquitto.conf
+```
+configuration example
+```
+persistence true
+persistence_location /mosquitto/data/
+log_dest stdout
+
+listener 1883 0.0.0.0
+allow_anonymous false
+password_file /mosquitto/config/passwords
+```
+
+#### mosquitto passwords
+```sh
+mosquitto_passwd -b /tmp/mosquitto-passwords my_secret_user "my_secret_password"
+```
+
+#### start mosquitto
+```sh
+sudo systemctl enable --now mosquitto
+sudo systemctl status mosquitto
+```
+
+### Configure Mosquitto in docker 
 #### mosquitto passwords
 Configure the same username/password in Zigbee2MQTT's private `configuration.yaml`. 
 Home Assistant can connect to `127.0.0.1:1883` because it uses host networking.
@@ -192,32 +246,57 @@ exit
 ### Configure Zigbee2MQTT
 #### start with init installation 
 ```bash
-cat config/zigbee2mqtt/configuration.yaml.example
-sudo cp config/zigbee2mqtt/configuration.yaml.example /srv/homelab/data/zigbee2mqtt/configuration.yaml
+cat config/zigbee2mqtt/configuration.yaml.example2
+server-home-ssh-copy-to config/zigbee2mqtt/configuration.yaml.example2 /srv/homelab/data/zigbee2mqtt/configuration.yaml
+
+server-home-ssh
 sudo chown -R "$USER":"$USER" /srv/homelab/data/zigbee2mqtt
-nano /srv/homelab/data/zigbee2mqtt/configuration.yaml
+exit
 ```
 Ensure the `serial.port` inside the container is `/dev/ttyUSB0`. The Compose file maps the host's `/dev/serial/by-id/...` path to that container path. Confirm the correct adapter type for your coordinator firmware.
 For a Sonoff ZBDongle-P with Z-Stack firmware, `adapter: zstack` is commonly used. Do not change coordinator firmware or network settings during a simple server migration.
 
+
 #### copy your existing data files 
 ```sh
-/srv/homelab/data/zigbee2mqtt/database.db
-/srv/homelab/data/zigbee2mqtt/state.json
-/srv/homelab/data/zigbee2mqtt/configuration.yaml
-/srv/homelab/data/zigbee2mqtt/coordinator_backup.json
+SOURCE_FOLDER_ZIGBEE=/opt/zigbee2mqtt/data
+
+server-home-ssh-copy-to $SOURCE_FOLDER_ZIGBEE/database.db /srv/homelab/data/zigbee2mqtt/database.db
+server-home-ssh-copy-to $SOURCE_FOLDER_ZIGBEE/state.json /srv/homelab/data/zigbee2mqtt/state.json
+server-home-ssh-copy-to $SOURCE_FOLDER_ZIGBEE/configuration.yaml /srv/homelab/data/zigbee2mqtt/configuration.yaml
+server-home-ssh-copy-to $SOURCE_FOLDER_ZIGBEE/coordinator_backup.json /srv/homelab/data/zigbee2mqtt/coordinator_backup.json
+
+server-home-ssh
+sudo chown -R "$USER":"$USER" /srv/homelab/data/zigbee2mqtt
+exit
 ```
+
+### copy compose configuration
+```sh
+server-home-ssh-copy-to compose/smart-home/compose.yaml /srv/homelab/docker/zigbee2mqtt/compose.yaml 
+cat .env
+server-home-ssh-copy-to .env /srv/homelab/docker/zigbee2mqtt/.env 
+```
+
 
 ## Smart Home start
 ```bash
-cd /opt/homelab-ubuntu
-./scripts/management/homelab.sh config smart-home
-./scripts/management/homelab.sh up smart-home
-./scripts/management/homelab.sh status
-```
-Open Home Assistant at `http://SERVER_LAN_IP:8123` and Zigbee2MQTT at `http://SERVER_LAN_IP:8081`.
+server-home-ssh 
+docker ps
+docker compose -f /srv/homelab/docker/zigbee2mqtt/compose.yaml config
 
-## 10. Deploy other projects gradually
+docker compose -f /srv/homelab/docker/zigbee2mqtt/compose.yaml up -d
+
+docker compose -f /srv/homelab/docker/zigbee2mqtt/compose.yaml logs -f mosquitto zigbee2mqtt homeassistant
+```
+
+```sh
+x-www-browser http://SERVER_LAN_IP:8123
+x-www-browser http://SERVER_LAN_IP:8081
+```
+
+
+## TODO: Deploy other projects gradually
 ```bash
 ./scripts/management/homelab.sh up storage
 ./scripts/management/homelab.sh up monitoring
@@ -238,7 +317,7 @@ docker stats --no-stream
 df -h
 ```
 
-## 11. Manual update procedure
+## TODO: Manual update procedure
 
 ```bash
 cd /opt/homelab-ubuntu
@@ -256,10 +335,3 @@ Back up persistent data before applying updates. Then explicitly recreate:
 The repository intentionally does not contain an auto-update container or GitHub Actions deployment workflow.
 
 
-# Other steps
-## check your system 
-```sh
-systemctl list-units --type=service --state=running
-systemctl list-timers --all
-sudo journalctl -f
-```

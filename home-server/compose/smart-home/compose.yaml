@@ -14,20 +14,26 @@ services:
     mem_limit: 128m
     networks:
       - smart-home
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_sub -h 127.0.0.1 -p 1883 -t '$$SYS/broker/version' -C 1 -W 5 >/dev/null 2>&1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   zigbee2mqtt:
     image: koenkk/zigbee2mqtt:latest
     container_name: zigbee2mqtt
     restart: unless-stopped
     depends_on:
-      - mosquitto
+      mosquitto:
+        condition: service_healthy
     environment:
       TZ: ${TZ:-Europe/Berlin}
     volumes:
       - /srv/homelab/data/zigbee2mqtt:/app/data
       - /run/udev:/run/udev:ro
     devices:
-      - "${ZIGBEE_DEVICE}:/dev/ttyUSB0"
+      - "${ZIGBEE_DEVICE:-/dev/ttyUSB0}:/dev/ttyUSB0"
     ports:
       - "8081:8080"
     mem_limit: 350m
@@ -49,3 +55,4 @@ services:
 networks:
   smart-home:
     name: smart-home
+    driver: bridge

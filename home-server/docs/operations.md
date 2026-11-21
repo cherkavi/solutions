@@ -1,5 +1,42 @@
 # Operations runbook
 
+## check your system 
+
+```sh
+systemctl list-units --type=service --state=running
+systemctl list-timers --all
+sudo journalctl -f
+```
+
+## system update
+
+```sh
+apt-get update
+apt-get full-upgrade
+```
+
+## health check
+```sh
+echo "=== Host ==="
+hostnamectl
+echo
+echo "=== Memory ==="
+free -h
+echo
+echo "=== Filesystems ==="
+df -hT
+echo
+echo "=== Docker ==="
+docker info --format 'Docker={{.ServerVersion}} StorageDriver={{.Driver}}' 2>/dev/null || true
+docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+echo
+echo "=== Resource usage ==="
+docker stats --no-stream 2>/dev/null || true
+echo
+echo "=== Zigbee USB devices ==="
+ls -l /dev/serial/by-id/ 2>/dev/null || true
+```
+
 ## Status
 
 ```bash

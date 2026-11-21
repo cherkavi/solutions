@@ -81,27 +81,46 @@ All other published ports should be limited to trusted LAN/Tailscale access usin
 
 ```mermaid
 flowchart TB
-    Router["Home router / Wi-Fi"]
+    Router["Router / Wi-Fi"]
     Host["Ubuntu Server host"]
     Router --> Host
-    subgraph Host["Ubuntu Server"]
-      SSH["SSH / Tailscale / firewall"]
-      Docker["Docker Engine + Compose"]
-      Restic["Restic + systemd timer"]
-      subgraph Smart["smart-home"]
+    subgraph Host["Host / Ubuntu Server"]
+      SSH["SSH"]
+      Tailscale["Tailscale"]
+      MQTT["Mosquitto Publish/Subscribe Broker"]
+      Z2M["Zigbee2MQTT"]
+      subgraph Docker["Docker Engine + Compose"]
         HA["Home Assistant"]
-        MQTT["Mosquitto"]
-        Z2M["Zigbee2MQTT"]
-      end
-      subgraph Other["Other Compose projects"]
         Sync["Syncthing"]
         Monitor["Uptime Kuma"]
         Dev["Gitea / PostgreSQL / Qdrant"]
-        AI["Ollama (on demand)"]
+        AI["Ollama (on demand)"]      
       end
-      Docker --> Smart
-      Docker --> Other
+      Restic["Restic + systemd timer"]
     end
-    Z2M --> Dongle["USB Zigbee coordinator"]
+    Sensor["Zigbee sensor"] -.-> Dongle
+    Dongle["USB Zigbee coordinator / Dongle"] -.-> Z2M
+    Z2M -.->MQTT -.-> HA
     Restic --> Backup["External backup disk"]
+```
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant ZS as Zigbee Sensor
+    participant Z2M as Zigbee2MQTT
+    participant MQ as Mosquitto (MQTT Broker)
+    participant HA as Home Assistant
+
+    Note over Z2M,MQ: Startup / Discovery
+    Z2M->>MQ: Publish device config (homeassistant/sensor/.../config)
+    MQ-->>HA: Deliver retained discovery config
+    HA->>HA: Create/update sensor entity
+
+    Note over ZS,HA: Normal Telemetry Event
+    ZS->>Z2M: Transmit Zigbee attribute report (via Coordinator)
+    Z2M->>Z2M: Decode payload to JSON
+    Z2M->>MQ: Publish state to zigbee2mqtt/<device_name>
+    MQ-->>HA: Push state update to subscribed topic
+    HA->>HA: Update entity state & trigger automations
 ```
