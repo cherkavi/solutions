@@ -4,9 +4,10 @@
 ```mermaid
 flowchart LR
 
-Zigbee2MQTT -.-> Mosquitto 
-Python ---> Mosquitto
-Python <-.-> SQLite
+ZS[["ZigbeeSensor"]] -.-> ZM(["Zigbee2MQTT"])
+ZM -.-> M(["Mosquitto Publish/Subscribe Broker"]) -.-> P["Python"]
+P --> M
+P <-.-> SQLite[(SQLite)]
 ```
 
 
@@ -14,9 +15,7 @@ Python <-.-> SQLite
 ```sh
 sudo apt update
 
-sudo apt install -y \
-    mosquitto \
-    mosquitto-clients
+sudo apt install -y mosquitto mosquitto-clients
 
 sudo systemctl enable --now mosquitto
 sudo systemctl status mosquitto
@@ -69,7 +68,7 @@ version: 5
 
 mqtt:
   base_topic: zigbee2mqtt
-  server: mqtt://localhost
+  server: mqtt://localhost:1883
 
 serial:
   port: /dev/ttyUSB0

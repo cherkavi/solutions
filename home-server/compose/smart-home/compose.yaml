@@ -16,7 +16,7 @@ services:
       - smart-home
     healthcheck:
       test: ["CMD-SHELL", "mosquitto_sub -h 127.0.0.1 -p 1883 -t '$$SYS/broker/version' -C 1 -W 5 >/dev/null 2>&1"]
-      interval: 30s
+      interval: 120s
       timeout: 10s
       retries: 3
 
@@ -47,10 +47,19 @@ services:
     network_mode: host
     environment:
       TZ: ${TZ:-Europe/Berlin}
+      DBUS_SYSTEM_BUS_ADDRESS: unix:path=/run/dbus/system_bus_socket
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW      
+
+    security_opt:
+      - apparmor:unconfined
+      
     volumes:
       - /srv/homelab/data/homeassistant:/config
       - /etc/localtime:/etc/localtime:ro
-    mem_limit: 900m
+      - /run/dbus:/run/dbus:ro                       # Allow Home Assistant to communicate with the host's D-Bus for certain integrations (Bluetooth, Avahi, etc.)
+    # mem_limit: 1536m                                 # to avoid OOM killer, set a memory limit for Home Assistant (adjust as needed)
 
 networks:
   smart-home:

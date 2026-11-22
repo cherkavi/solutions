@@ -49,8 +49,10 @@ df -h
 ## Logs
 
 ```bash
-./scripts/management/homelab.sh logs smart-home
+docker compose -f /srv/homelab/docker/zigbee2mqtt/compose.yaml logs -f mosquitto zigbee2mqtt homeassistant
+
 docker logs -f zigbee2mqtt
+docker logs -f homeassistant
 ```
 
 ## Update one project manually
@@ -96,3 +98,23 @@ docker exec zigbee2mqtt ls -l /dev/ttyUSB0
 ```
 
 Do not delete Zigbee2MQTT data or re-pair devices as a first troubleshooting step. Back up the coordinator and application data before changing firmware or network settings.
+
+## Bluetooth devices
+
+### check list 
+
+```sh
+bluetoothctl list
+```
+
+### trouble shooting 
+
+```sh
+docker exec homeassistant grep CapBnd /proc/1/status
+docker compose logs -f homeassistant | grep -iE 'habluetooth|hci0|NET_ADMIN'
+docker exec homeassistant printenv DBUS_SYSTEM_BUS_ADDRESS
+```
+```sh
+systemctl status dbus bluetooth --no-pager
+busctl list | grep -i bluez || true
+```

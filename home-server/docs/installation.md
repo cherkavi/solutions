@@ -282,11 +282,17 @@ server-home-ssh-copy-to .env /srv/homelab/docker/zigbee2mqtt/.env
 ## Smart Home start
 ```bash
 server-home-ssh 
+
 docker ps
+## check config 
 docker compose -f /srv/homelab/docker/zigbee2mqtt/compose.yaml config
 
+## start containers
+# docker compose -f /srv/homelab/docker/zigbee2mqtt/compose.yaml up -d --force-recreate
 docker compose -f /srv/homelab/docker/zigbee2mqtt/compose.yaml up -d
+# docker compose -f /srv/homelab/docker/zigbee2mqtt/compose.yaml down
 
+## logs 
 docker compose -f /srv/homelab/docker/zigbee2mqtt/compose.yaml logs -f mosquitto zigbee2mqtt homeassistant
 ```
 
@@ -331,7 +337,4 @@ Back up persistent data before applying updates. Then explicitly recreate:
 ```bash
 ./scripts/management/homelab.sh up smart-home
 ```
-
-The repository intentionally does not contain an auto-update container or GitHub Actions deployment workflow.
-
 
