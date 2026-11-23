@@ -331,3 +331,10 @@ x-www-browser http://$SERVER_HOST:8081
 * button "+" in right upper corner 
 
 ### [check/edit all created automations](http://$SERVER_HOST:8123/config/automation/dashboard)
+
+## Install new Zigbee sensor
+* Open the Dashboard.
+* Find the Permit join option (menu left).
+* Enable pairing.
+* Select your Zigbee coordinator/network.
+
