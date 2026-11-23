@@ -10,8 +10,13 @@ services:
       - /srv/homelab/data/mosquitto/data:/mosquitto/data
       - /srv/homelab/data/mosquitto/log:/mosquitto/log
     ports:
-      - "1883:1883" # - "127.0.0.1:1883:1883"
+      - "1883:1883"
     mem_limit: 128m
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
     networks:
       - smart-home
     healthcheck:
@@ -37,6 +42,11 @@ services:
     ports:
       - "8081:8080"
     mem_limit: 350m
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     networks:
       - smart-home
 
@@ -50,16 +60,19 @@ services:
       DBUS_SYSTEM_BUS_ADDRESS: unix:path=/run/dbus/system_bus_socket
     cap_add:
       - NET_ADMIN
-      - NET_RAW      
-
+      - NET_RAW
     security_opt:
       - apparmor:unconfined
-
     volumes:
       - /srv/homelab/data/homeassistant:/config
       - /etc/localtime:/etc/localtime:ro
-      - /run/dbus:/run/dbus:ro                       # Allow Home Assistant to communicate with the host's D-Bus for certain integrations (Bluetooth, Avahi, etc.)
-    # mem_limit: 1536m                                 # to avoid OOM killer, set a memory limit for Home Assistant (adjust as needed)
+      - /run/dbus:/run/dbus:ro                    # Allow Home Assistant to communicate with the host's D-Bus for certain integrations (Bluetooth, Avahi, etc.)
+    # mem_limit: 1536m
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
 
 networks:
   smart-home:
