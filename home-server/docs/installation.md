@@ -140,7 +140,11 @@ sudo apt-get install -y docker.io docker-buildx docker-compose-v2
 
 sudo groupadd docker
 sudo usermod -aG docker $USER 
+
+sudo cat /etc/docker/daemon.json
+
 ```
+
 
 ### check ports
 ```sh
@@ -279,7 +283,8 @@ server-home-ssh-copy-to .env /srv/homelab/docker/zigbee2mqtt/.env
 ```
 
 
-## Smart Home start
+## Smart Home UI
+### docker compose start 
 ```bash
 server-home-ssh 
 
@@ -297,44 +302,32 @@ docker compose -f /srv/homelab/docker/zigbee2mqtt/compose.yaml logs -f mosquitto
 ```
 
 ```sh
-x-www-browser http://SERVER_LAN_IP:8123
-x-www-browser http://SERVER_LAN_IP:8081
+x-www-browser http://$SERVER_HOST:8123
+x-www-browser http://$SERVER_HOST:8081
 ```
 
+### home assist configuration
+1. In Home Assistant, go to Settings → Devices & services.
+2. Click + Add integration/device and search for MQTT.
+3. 127.0.0.1 (or your Docker host's LAN IP)
+4. Port: 1883
+5. Optional: Username / Password: Leave blank if your /srv/homelab/data/mosquitto/config/mosquitto.conf allows anonymous connections (allow_anonymous true), or enter the credentials you configured.
 
-## TODO: Deploy other projects gradually
-```bash
-./scripts/management/homelab.sh up storage
-./scripts/management/homelab.sh up monitoring
-```
 
-Only when needed:
+### create Telegram bot
+* [create telegram bot and obtain 'name' and 'api key'](https://github.com/cherkavi/cheat-sheet/blob/master/telegram.md#bot-creation)
+* Overview -> "+" -> Add Device -> Telegram bot
+* Poling 
+*  `x-www-browser http://$SERVER_HOST:8123/config/integrations/integration/telegram_bot`
+   add allowed chat id (check chats with [@chat_bot](https://web.telegram.org/k/#@id_bot))     
+* `x-www-browser http://$SERVER_HOST:8123/config/tools/action`
+  * for "Draft ID" use "chat id" from previous step 
+  * additional options -> chat ID -> use "chat id"
+* send message draft
+* verification `x-www-browser http://$SERVER_HOST:8123/config/integrations/integration/telegram_bot`
 
-```bash
-./scripts/management/homelab.sh up development
-./scripts/management/homelab.sh up ai
-```
+### create test action 
+* Overview 
+* button "+" in right upper corner 
 
-Review resource use:
-
-```bash
-free -h
-docker stats --no-stream
-df -h
-```
-
-## TODO: Manual update procedure
-
-```bash
-cd /opt/homelab-ubuntu
-git pull --ff-only
-./scripts/management/homelab.sh pull smart-home
-./scripts/management/homelab.sh config smart-home
-```
-
-Back up persistent data before applying updates. Then explicitly recreate:
-
-```bash
-./scripts/management/homelab.sh up smart-home
-```
-
+### [check/edit all created automations](http://$SERVER_HOST:8123/config/automation/dashboard)

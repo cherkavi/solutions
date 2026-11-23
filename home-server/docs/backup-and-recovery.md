@@ -2,12 +2,11 @@
 
 ## Backup policy
 
-Back up application data and configuration to a separate external disk. A backup stored on the internal 512 GB SSD does not protect against SSD failure.
+Back up application data and configuration to a separate external disk.  
+A backup stored on the internal 512 GB SSD does not protect against SSD failure.
 
-Suggested backup targets:
-
+**Suggested backup targets:**
 - `/srv/homelab/data`
-- `/opt/homelab-ubuntu` (or simply re-clone Git)
 - selected `/etc` configuration files
 - personal files under `/srv/homelab/files`
 

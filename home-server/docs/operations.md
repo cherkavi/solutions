@@ -99,6 +99,12 @@ docker exec zigbee2mqtt ls -l /dev/ttyUSB0
 
 Do not delete Zigbee2MQTT data or re-pair devices as a first troubleshooting step. Back up the coordinator and application data before changing firmware or network settings.
 
+## Mosquitto 
+```sh
+mosquitto_sub -h $SERVER_HOST -p 1883 -t '$SYS/broker/version' -C 1 -W 5
+```
+
+
 ## Bluetooth devices
 
 ### check list 
@@ -117,4 +123,23 @@ docker exec homeassistant printenv DBUS_SYSTEM_BUS_ADDRESS
 ```sh
 systemctl status dbus bluetooth --no-pager
 busctl list | grep -i bluez || true
+```
+
+## Review resource use:
+```bash
+free -h
+docker stats --no-stream
+df -h
+
+sudo du -sh /var/lib/docker
+
+for each_container in $(docker ps --format '{{.Names}}'); do
+    echo ""
+    docker ps -s -f name=$each_container 
+    
+    CONTAINER_ID=$(docker ps -q -f name=$each_container)
+    LOG_PATH=$(docker inspect --format='{{.LogPath}}' "$CONTAINER_ID")
+    # Check current log size
+    sudo ls -lh "$LOG_PATH"    
+done 
 ```

@@ -10,7 +10,7 @@ services:
       - /srv/homelab/data/mosquitto/data:/mosquitto/data
       - /srv/homelab/data/mosquitto/log:/mosquitto/log
     ports:
-      - "127.0.0.1:1883:1883"
+      - "1883:1883" # - "127.0.0.1:1883:1883"
     mem_limit: 128m
     networks:
       - smart-home
@@ -54,7 +54,7 @@ services:
 
     security_opt:
       - apparmor:unconfined
-      
+
     volumes:
       - /srv/homelab/data/homeassistant:/config
       - /etc/localtime:/etc/localtime:ro

@@ -43,13 +43,7 @@ The budgets below are starting limits, not measured consumption. Tune after obse
 Do not start all optional projects simultaneously. Ollama's model memory and inference context can exceed container expectations. Start with a small quantized model and benchmark.
 
 ## Storage
-
-Use `/srv/homelab` for Compose files and persistent application data. Keep the Git checkout separate at `/opt/homelab-ubuntu`.
-
-Suggested layout:
-
 ```text
-/opt/homelab-ubuntu/          # Git checkout; no runtime data
 /srv/homelab/
 ├── data/
 │   ├── homeassistant/
@@ -65,7 +59,11 @@ Suggested layout:
 │   ├── documents/
 │   ├── photos/
 │   └── shared/
-└── backups/                  # temporary local staging only
+├── backups/                  # temporary local staging only
+├── logs
+│   └── zigbee2mqtt           # .env, compose.yaml files
+└── docker
+
 /mnt/homelab-backup/          # separate external disk
 ```
 

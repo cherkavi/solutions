@@ -6,6 +6,8 @@
 - Mosquitto: MQTT broker, password authentication, host loopback publish.
 - Zigbee2MQTT: USB coordinator passthrough, frontend on 8081.
 - Persistent data: `/srv/homelab/data/{homeassistant,mosquitto,zigbee2mqtt}`.
+- Telegram: for input/output messaging 
+
 
 ## storage
 
