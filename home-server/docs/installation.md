@@ -338,3 +338,20 @@ x-www-browser http://$SERVER_HOST:8081
 * Enable pairing.
 * Select your Zigbee coordinator/network.
 
+## Sound card issue
+```sh
+sudo apt install -y alsa-utils
+aplay -l 
+
+sudo usermod -aG audio $USER
+
+# getent group audio
+id | grep audio 
+if [[ -n $? ]]; then 
+    newgrp audio
+fi
+
+
+aplay -l
+aplay -D plughw:CARD=PCH,DEV=0 alarm_15s.wav
+```
